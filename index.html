@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>$UDI</title>
+  <link rel="icon" href="UDifavicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="UDifavicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin:0; padding:0; height:100%; width:100%; overflow-x:hidden; }
+    body {
+      background: #Fd8c00;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Special Elite', monospace !important;
+    }
+
+    /* PASSWORD SCREEN */
+    .password-screen {
+      position: fixed;
+      inset: 0;
+      background: #Fd8c00;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+      padding: 20px;
+    }
+    .pass-container { text-align: center; max-width: 300px; width: 100%; }
+    .pass-logo { width: 190px; max-width: 90vw; margin-bottom: 10px; animation: bounce 1.8s infinite; }
+    #passInput {
+      width: 100%;
+      padding: 18px 20px;
+      background: rgba(255,255,255,0.08);
+      border: none;
+      outline: none;
+      box-shadow: none;
+      border-radius: 30px;
+      color: white;
+      font-size: 1.2rem;
+      text-align: center;
+      letter-spacing: 3px;
+      backdrop-filter: blur(10px);
+      font-family: 'Special Elite', monospace !important;
+    }
+    #passInput::placeholder { color: rgba(255,255,255,0.3); }
+    .pass-error {
+      margin-top: 10px;
+      color: #ff1b26;
+      font-weight: bold;
+      font-size: 1.1rem;
+      opacity: 0;
+      transition: opacity .4s;
+    }
+    .pass-error.show { opacity: 1; }
+
+    /* MAIN FORM */
+    .container {
+      text-align: center;
+      max-width: 420px;
+      width: 100%;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .logo { width: 240px; max-width: 90vw; margin-bottom: 10px; }
+
+    .compact-input {
+      width: 100%;
+      max-width: 360px;
+      padding: 16px 20px !important;
+      background: rgba(255,255,255,0.08);
+      border: none;
+      border-radius: 30px;
+      color: white;
+      font-size: 1.35rem !important;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      font-family: 'Special Elite', monospace !important;
+    }
+    .compact-input::placeholder { color: rgba(255,255,255,0.55); }
+    .compact-input:focus { outline: none; background: rgba(255,255,255,0.15); }
+
+    button {
+      margin-top: 10px;
+      padding: 14px 40px;
+      background: rgba(255,255,255,0.08);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-size: 1.4rem;
+      font-weight: bold;
+      letter-spacing: 3px;
+      cursor: pointer;
+      transition: all .3s;
+      font-family: 'Special Elite', monospace !important;
+    }
+    button:hover { background: white; color: #ff8c00; transform: translateY(-2px); }
+
+    .message {
+      margin-top: 20px;
+      font-size: 1rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+      display: none;
+      white-space: pre-line;
+      text-align: center;
+    }
+    .error-msg { color: #ff1b26; }
+    .welcome { font-size: 1.3rem !important; color: #61ff58; animation: bounce 1.8s infinite; }
+
+    .footer {
+      position: fixed;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.75rem;
+      font-weight: bold;
+      letter-spacing: 1.5px;
+      display: flex;
+      gap: 20px;
+      white-space: nowrap;
+    }
+
+    @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  </style>
+</head>
+<body>
+
+  <!-- SCREEN ENTER CODE -->
+  <div class="password-screen" id="passwordScreen">
+    <div class="pass-container">
+      <img src="infinity.png" alt="UDI" class="pass-logo">
+      <input type="text" inputmode="text" maxlength="8" id="passInput" placeholder="Enter Code..." autocomplete="off">
+      <div class="pass-error" id="passError">Invalid or already used code!</div>
+    </div>
+      <div class="footer">
+      <span>© 2025 UDI. All rights reserved.</span>
+      <span>│</span>
+      <span>contact@updowninfinity.xyz</span>
+    </div>
+  </div>
+
+  <!-- MAIN FORM -->
+  <div class="container" id="mainForm" style="display:none;">
+    <img src="Loon.gif" alt="UDI" class="logo">
+
+    <div style="margin: 8px 0;">
+      <input type="text" id="twitter" placeholder="@yourX" class="compact-input">
+    </div>
+    <div style="margin: 8px 0;">
+      <input type="text" id="wallet" placeholder="0x...eth" class="compact-input">
+    </div>
+    <div style="margin: 8px 0;">
+      <input type="text" id="code" maxlength="8" readonly class="compact-input" style="background:rgba(0,255,0,0.15);">
+    </div>
+
+    <button id="submitBtn">SUBMIT</button>
+
+    <div class="message" id="loading">Submitting...</div>
+    <div class="message error-msg" id="error"></div>
+    <div class="message welcome" id="welcome">WHITELISTED SUCCESS!!!</div>
+
+    <div class="footer">
+      <span>© 2025 UDI. All rights reserved.</span>
+      <span>│</span>
+      <span>contact@updowninfinity.xyz</span>
+    </div>
+  </div>
+
+  <script>
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx9btMeGOjPeUIHwWpNqjT66QQRUIo-Y5XW0f5pe0bcBdSURVIHVc1H9v_lO1LzSx9j/exec';
+
+    let currentUserCode = null;
+
+    const passwordScreen = document.getElementById('passwordScreen');
+    const mainForm       = document.getElementById('mainForm');
+    const passInput      = document.getElementById('passInput');
+    const passError      = document.getElementById('passError');
+
+    if (passInput) passInput.focus();
+
+    async function getValidCodes() {
+      try {
+        const r = await fetch(SCRIPT_URL + '?action=get_codes');
+        const d = await r.json();
+        return d.codes || [];
+      } catch { return []; }
+    }
+
+    passInput.addEventListener('input', async function () {
+      this.value = this.value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 8);
+      passError.classList.remove('show');
+
+      if (this.value.length === 8) {
+        const validCodes = await getValidCodes();
+
+        if (validCodes.includes(this.value)) {
+          currentUserCode = this.value;
+          passwordScreen.style.opacity = '0';
+          setTimeout(() => {
+            passwordScreen.style.display = 'none';
+            mainForm.style.display = 'flex';
+            document.getElementById('code').value = currentUserCode;
+          }, 250);
+        } else {
+          const allCodes = await fetch(SCRIPT_URL + '?action=get_all_codes')
+            .then(r => r.json())
+            .then(d => d.codes || [])
+            .catch(() => []);
+
+          if (allCodes.includes(this.value)) {
+            passError.textContent = 'Code already used!';
+          } else {
+            passError.textContent = 'Invalid code!';
+          }
+          passError.classList.add('show');
+        }
+      }
+    });
+
+    function isValidEthAddress(a) {
+      return /^0x[a-fA-F0-9]{40}$/i.test(a);
+    }
+
+    document.getElementById('submitBtn').addEventListener('click', async () => {
+      let tw = document.getElementById('twitter').value.trim();
+      let wl = document.getElementById('wallet').value.trim();
+      let cd = document.getElementById('code').value.trim();
+
+      const loading = document.getElementById('loading');
+      const error   = document.getElementById('error');
+      const welcome = document.getElementById('welcome');
+
+      loading.style.display = error.style.display = welcome.style.display = 'none';
+
+      if (!tw || !wl || !cd) {
+        error.textContent = 'Please fill all fields';
+        error.style.display = 'block';
+        return;
+      }
+
+      if (!tw.startsWith('@')) tw = '@' + tw.replace(/^@+/, '');
+      document.getElementById('twitter').value = tw;
+
+      if (!wl.match(/^0x/i) || !isValidEthAddress(wl)) {
+        error.textContent = 'Invalid wallet address';
+        error.style.display = 'block';
+        return;
+      }
+
+      if (cd.length !== 8) {
+        error.textContent = 'Code must be 8 characters';
+        error.style.display = 'block';
+        return;
+      }
+
+      document.getElementById('submitBtn').disabled = true;
+      loading.style.display = 'block';
+
+      try {
+        const r = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify({
+            action: 'submit',
+            twitter: tw,
+            wallet: wl.toLowerCase(),
+            code: cd,
+            timestamp: new Date().toISOString()
+          })
+        });
+
+        const d = await r.json();
+
+        if (d.result === 'success') {
+          welcome.style.display = 'block';
+          document.getElementById('twitter').value = '';
+          document.getElementById('wallet').value = '';
+        } else if (d.result === 'duplicate') {
+          let msg = '';
+          if (d.details?.twitter) msg += 'X already used!\n';
+          if (d.details?.wallet)  msg += 'Wallet already used!\n';
+          if (d.details?.code)    msg += 'Code already used!\n';
+          error.textContent = msg.trim() || 'Entry already exists!';
+          error.style.display = 'block';
+        } else {
+          error.textContent = 'Something went wrong';
+          error.style.display = 'block';
+        }
+      } catch (e) {
+        console.error(e);
+        error.textContent = 'Network error – try again later';
+        error.style.display = 'block';
+      } finally {
+        document.getElementById('submitBtn').disabled = false;
+        loading.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
