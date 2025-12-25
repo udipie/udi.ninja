@@ -129,6 +129,16 @@
       gap: 20px;
       white-space: nowrap;
     }
+    /* Fade out effect */
+    .form-elements {
+      transition: opacity 0.8s ease-out;
+      opacity: 1;
+    }
+
+    .form-elements.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
 
     @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
   </style>
@@ -152,7 +162,7 @@
   <!-- MAIN FORM -->
   <div class="container" id="mainForm" style="display:none;">
     <img src="Unseal.png" alt="UDI" class="logo">
-
+  <div class="form-elements" id="formElements">
     <div style="margin: 8px 0;">
       <input type="text" id="twitter" placeholder="@yourX" class="compact-input">
     </div>
@@ -164,6 +174,7 @@
     </div>
 
     <button id="submitBtn">SUBMIT</button>
+  </div>
 
     <div class="message" id="loading">Submitting...</div>
     <div class="message error-msg" id="error"></div>
@@ -281,8 +292,23 @@
 
         const d = await r.json();
 
-        if (d.result === 'success') {
-          welcome.style.display = 'block';
+      if (d.result === 'success') {
+     // Fade out all form
+         const formElements = document.getElementById('formElements');
+         formElements.classList.add('fade-out');
+
+     // option fade 0.8s
+         setTimeout(() => {
+         formElements.style.display = 'none';
+         }, 900); // 900ms > 800ms transition
+
+     // Notis success
+         welcome.style.display = 'block';
+
+     // Logo disappear
+          document.querySelector('.logo').style.marginBottom = '50px';
+
+     // delete input price
           document.getElementById('twitter').value = '';
           document.getElementById('wallet').value = '';
         } else if (d.result === 'duplicate') {
