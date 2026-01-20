@@ -141,51 +141,6 @@
     }
 
     @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-
-    /* Checkbox Styles */
-    .checkbox-group {
-  margin: 20px 0;
-  display: flex;
-  flex-wrap: wrap;              
-  justify-content: center;      
-  gap: 30px;                    
-  width: 100%;
-  max-width: 360px;
-}
-.checkbox-label {
-  display: flex;
-  align-items: center;
-  font-size: 1.1rem;
-  cursor: pointer;
-  gap: 8px;                    
-  white-space: nowrap;          
-}
-.checkbox {
-  width: 20px;
-  height: 20px;
-  appearance: none;
-  background: rgba(255,255,255,0.08);
-  border-radius: 5px;
-  cursor: pointer;
-  position: relative;
-}
-.checkbox:checked::before {
-  content: '✔';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #61ff58;
-  font-size: 1.2rem;
-}
-
-    .instructions {
-      margin-bottom: 15px;
-      font-size: 1.1rem;
-      text-align: center;
-      color: rgba(255,255,255,0.8);
-      max-width: 360px;
-    }
   </style>
 </head>
 <body>
@@ -194,10 +149,10 @@
   <div class="password-screen" id="passwordScreen">
     <div class="pass-container">
       <img src="Infeeno.png" alt="UDI" class="pass-logo">
-      <input type="text" inputmode="text" id="passInput" placeholder="Password..." autocomplete="off">
-      <div class="pass-error" id="passError">Wrong Password!</div>
+      <input type="text" inputmode="text" maxlength="8" id="passInput" placeholder="Enter Code..." autocomplete="off">
+      <div class="pass-error" id="passError">Invalid or already used code!</div>
     </div>
-    <div class="footer">
+      <div class="footer">
       <span>© 2025 UDI. All rights reserved.</span>
       <span>│</span>
       <span>contact@udi.ninja</span>
@@ -207,39 +162,23 @@
   <!-- MAIN FORM -->
   <div class="container" id="mainForm" style="display:none;">
     <img src="Unseal.png" alt="UDI" class="logo">
-    <div class="form-elements" id="formElements">
-      <div class="instructions">
-        Complete all steps to be eligible for the Whitelist
-      </div>
-      <div style="margin: 8px 0;">
-        <input type="text" id="twitter" placeholder="@username" class="compact-input">
-      </div>
-      <div style="margin: 8px 0;">
-        <input type="text" id="wallet" placeholder="0x...eth" class="compact-input">
-      </div>
-      <div style="margin: 8px 0;">
-        <input type="text" id="retweetLink" placeholder="your retweet link..." class="compact-input">
-      </div>
-      <div class="checkbox-group">
-  <label class="checkbox-label">
-    <input type="checkbox" class="checkbox" id="likeCheck">
-    Like
-  </label>
-  <label class="checkbox-label">
-    <input type="checkbox" class="checkbox" id="retweetCheck">
-    Retweet
-  </label>
-  <label class="checkbox-label">
-    <input type="checkbox" class="checkbox" id="followCheck">
-    Follow
-  </label>
-</div>
-      <button id="submitBtn">SUBMIT</button>
+  <div class="form-elements" id="formElements">
+    <div style="margin: 8px 0;">
+      <input type="text" id="twitter" placeholder="@yourX" class="compact-input">
     </div>
+    <div style="margin: 8px 0;">
+      <input type="text" id="wallet" placeholder="0x...eth" class="compact-input">
+    </div>
+    <div style="margin: 8px 0;">
+      <input type="text" id="code" maxlength="8" readonly class="compact-input" style="background:rgba(0,255,0,0.15);">
+    </div>
+
+    <button id="submitBtn">SUBMIT</button>
+  </div>
 
     <div class="message" id="loading">Submitting...</div>
     <div class="message error-msg" id="error"></div>
-    <div class="message welcome" id="welcome">Welcome to UDION!</div>
+    <div class="message welcome" id="welcome">WHITELISTED SUCCESS!!!</div>
 
     <div class="footer">
       <span>© 2025 UDI. All rights reserved.</span>
@@ -249,7 +188,9 @@
   </div>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwqOQBmy5JighmyWMLijzMiVswlgoQta_wQZ3020BwZj9XIYoMMV5mXAaHRvLlA53ts/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx9btMeGOjPeUIHwWpNqjT66QQRUIo-Y5XW0f5pe0bcBdSURVIHVc1H9v_lO1LzSx9j/exec';
+
+    let currentUserCode = null;
 
     const passwordScreen = document.getElementById('passwordScreen');
     const mainForm       = document.getElementById('mainForm');
@@ -258,19 +199,42 @@
 
     if (passInput) passInput.focus();
 
-    passInput.addEventListener('input', function () {
-      this.value = this.value.toLowerCase().trim();
+    async function getValidCodes() {
+      try {
+        const r = await fetch(SCRIPT_URL + '?action=get_codes');
+        const d = await r.json();
+        return d.codes || [];
+      } catch { return []; }
+    }
+
+    passInput.addEventListener('input', async function () {
+      this.value = this.value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 8);
       passError.classList.remove('show');
 
-      if (this.value === 'tridy') {
-        passwordScreen.style.opacity = '0';
-        setTimeout(() => {
-          passwordScreen.style.display = 'none';
-          mainForm.style.display = 'flex';
-        }, 250);
-      } else if (this.value.length >= 5) {  // Show error after reasonable input length
-        passError.textContent = 'Wrong Password!';
-        passError.classList.add('show');
+      if (this.value.length === 8) {
+        const validCodes = await getValidCodes();
+
+        if (validCodes.includes(this.value)) {
+          currentUserCode = this.value;
+          passwordScreen.style.opacity = '0';
+          setTimeout(() => {
+            passwordScreen.style.display = 'none';
+            mainForm.style.display = 'flex';
+            document.getElementById('code').value = currentUserCode;
+          }, 250);
+        } else {
+          const allCodes = await fetch(SCRIPT_URL + '?action=get_all_codes')
+            .then(r => r.json())
+            .then(d => d.codes || [])
+            .catch(() => []);
+
+          if (allCodes.includes(this.value)) {
+            passError.textContent = 'Code already used!';
+          } else {
+            passError.textContent = 'Invalid code!';
+          }
+          passError.classList.add('show');
+        }
       }
     });
 
@@ -281,11 +245,7 @@
     document.getElementById('submitBtn').addEventListener('click', async () => {
       let tw = document.getElementById('twitter').value.trim();
       let wl = document.getElementById('wallet').value.trim();
-      let retweetLink = document.getElementById('retweetLink').value.trim();
-
-      const likeCheck = document.getElementById('likeCheck').checked;
-      const retweetCheck = document.getElementById('retweetCheck').checked;
-      const followCheck = document.getElementById('followCheck').checked;
+      let cd = document.getElementById('code').value.trim();
 
       const loading = document.getElementById('loading');
       const error   = document.getElementById('error');
@@ -293,20 +253,8 @@
 
       loading.style.display = error.style.display = welcome.style.display = 'none';
 
-      if (!tw || !wl || !retweetLink) {
+      if (!tw || !wl || !cd) {
         error.textContent = 'Please fill all fields';
-        error.style.display = 'block';
-        return;
-      }
-
-      if (!likeCheck || !retweetCheck || !followCheck) {
-        error.textContent = 'Please complete all steps (Like, Retweet, Follow)';
-        error.style.display = 'block';
-        return;
-      }
-
-      if (retweetLink && !retweetLink.includes('x.com') && !retweetLink.includes('twitter.com')) {
-        error.textContent = 'Invalid link';
         error.style.display = 'block';
         return;
       }
@@ -316,6 +264,12 @@
 
       if (!wl.match(/^0x/i) || !isValidEthAddress(wl)) {
         error.textContent = 'Invalid wallet address';
+        error.style.display = 'block';
+        return;
+      }
+
+      if (cd.length !== 8) {
+        error.textContent = 'Code must be 8 characters';
         error.style.display = 'block';
         return;
       }
@@ -331,33 +285,43 @@
             action: 'submit',
             twitter: tw,
             wallet: wl.toLowerCase(),
-            retweetLink: retweetLink.trim(),
+            code: cd,
             timestamp: new Date().toISOString()
           })
         });
 
         const d = await r.json();
 
-        if (d.result === 'success') {
-  const formElements = document.getElementById('formElements');
-  formElements.classList.add('fade-out');
-  setTimeout(() => { formElements.style.display = 'none'; }, 500);
-  welcome.style.display = 'block';
-  document.querySelector('.logo').style.marginBottom = '50px';
-  document.getElementById('twitter').value = '';
-  document.getElementById('wallet').value = '';
-  document.getElementById('retweetLink').value = '';
-} else if (d.result === 'duplicate') {
-  let msg = '';
-  if (d.details?.twitter)   msg += 'X already used!\n';
-  if (d.details?.wallet)    msg += 'Wallet already used!\n';
-  if (d.details?.retweetLink) msg += 'Retweet link already used!\n';
-  error.textContent = msg.trim() || 'Entry already exists!';
-  error.style.display = 'block';
-} else {
-  error.textContent = 'Something went wrong';
-  error.style.display = 'block';
-}
+      if (d.result === 'success') {
+     // Fade out all form
+         const formElements = document.getElementById('formElements');
+         formElements.classList.add('fade-out');
+
+     // option fade 0.5s
+         setTimeout(() => {
+         formElements.style.display = 'none';
+         }, 500);
+
+     // Notis success
+         welcome.style.display = 'block';
+
+     // Logo disappear
+          document.querySelector('.logo').style.marginBottom = '50px';
+
+     // delete input price
+          document.getElementById('twitter').value = '';
+          document.getElementById('wallet').value = '';
+        } else if (d.result === 'duplicate') {
+          let msg = '';
+          if (d.details?.twitter) msg += 'X already used!\n';
+          if (d.details?.wallet)  msg += 'Wallet already used!\n';
+          if (d.details?.code)    msg += 'Code already used!\n';
+          error.textContent = msg.trim() || 'Entry already exists!';
+          error.style.display = 'block';
+        } else {
+          error.textContent = 'Something went wrong';
+          error.style.display = 'block';
+        }
       } catch (e) {
         console.error(e);
         error.textContent = 'Network error – try again later';
@@ -370,3 +334,5 @@
   </script>
 </body>
 </html>
+
+
