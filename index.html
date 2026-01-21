@@ -262,117 +262,125 @@
 </div>
 
 <script>
-/* ================= CONFIG ================= */
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwqOQBmy5JighmyWMLijzMiVswlgoQta_wQZ3020BwZj9XIYoMMV5mXAaHRvLlA53ts/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwqOQBmy5JighmyWMLijzMiVswlgoQta_wQZ3020BwZj9XIYoMMV5mXAaHRvLlA53ts/exec';
 
-const X_LINKS = {
-  like: 'https://x.com/udininja/status/XXXXXXXX',
-  retweet: 'https://x.com/udininja/status/XXXXXXXX',
-  follow: 'https://x.com/udininja'
-};
+    const passwordScreen = document.getElementById('passwordScreen');
+    const mainForm       = document.getElementById('mainForm');
+    const passInput      = document.getElementById('passInput');
+    const passError      = document.getElementById('passError');
 
-/* ================= PASSWORD ================= */
-const passInput = document.getElementById('passInput');
-const passError = document.getElementById('passError');
+    if (passInput) passInput.focus();
 
-passInput.focus();
-passInput.addEventListener('input', () => {
-  passInput.value = passInput.value.toLowerCase().trim();
-  passError.classList.remove('show');
+    passInput.addEventListener('input', function () {
+      this.value = this.value.toLowerCase().trim();
+      passError.classList.remove('show');
 
-  if (passInput.value === 'tridy') {
-    document.getElementById('passwordScreen').style.display = 'none';
-    document.getElementById('mainForm').style.display = 'flex';
-  } else if (passInput.value.length >= 5) {
-    passError.classList.add('show');
-  }
-});
+      if (this.value === 'tridy') {
+        passwordScreen.style.opacity = '0';
+        setTimeout(() => {
+          passwordScreen.style.display = 'none';
+          mainForm.style.display = 'flex';
+        }, 250);
+      } else if (this.value.length >= 5) {
+        passError.textContent = 'Wrong Password!';
+        passError.classList.add('show');
+      }
+    });
 
-/* ================= X TASKS ================= */
-const opened = { like:false, retweet:false, follow:false };
+    function isValidEthAddress(a) {
+      return /^0x[a-fA-F0-9]{40}$/i.test(a);
+    }
 
-function bindTask(id, key, url) {
-  const el = document.getElementById(id);
-  el.addEventListener('change', () => {
-    if (el.checked && !opened[key]) {
-      window.open(url, '_blank');
-      opened[key] = true;
-    }
-  });
-}
+    document.getElementById('submitBtn').addEventListener('click', async () => {
+      let tw          = document.getElementById('twitter').value.trim();
+      let wl          = document.getElementById('wallet').value.trim();
+      let retweetLink = document.getElementById('retweetLink').value.trim();
 
-bindTask('likeCheck', 'like', X_LINKS.like);
-bindTask('retweetCheck', 'retweet', X_LINKS.retweet);
-bindTask('followCheck', 'follow', X_LINKS.follow);
+      const likeCheck    = document.getElementById('likeCheck').checked;
+      const retweetCheck = document.getElementById('retweetCheck').checked;
+      const followCheck  = document.getElementById('followCheck').checked;
 
-/* ================= SUBMIT ================= */
-function isValidEth(addr) {
-  return /^0x[a-fA-F0-9]{40}$/.test(addr);
-}
+      const loading = document.getElementById('loading');
+      const error   = document.getElementById('error');
+      const welcome = document.getElementById('welcome');
 
-document.getElementById('submitBtn').onclick = async () => {
-  const tw = twitter.value.trim();
-  const wl = wallet.value.trim();
-  const rl = retweetLink.value.trim();
+      loading.style.display = error.style.display = welcome.style.display = 'none';
 
-  error.style.display = welcome.style.display = 'none';
+      if (!tw || !wl || !retweetLink) {
+        error.textContent = 'Please fill all fields';
+        error.style.display = 'block';
+        return;
+      }
 
-  if (!tw || !wl || !rl) {
-    error.textContent = 'Please fill all fields';
-    return error.style.display = 'block';
-  }
+      if (!likeCheck || !retweetCheck || !followCheck) {
+        error.textContent = 'Please complete all steps (Like, Retweet, Follow)';
+        error.style.display = 'block';
+        return;
+      }
 
-  if (!likeCheck.checked || !retweetCheck.checked || !followCheck.checked) {
-    error.textContent = 'Please complete all X tasks';
-    return error.style.display = 'block';
-  }
+      if (retweetLink && !retweetLink.includes('x.com') && !retweetLink.includes('twitter.com')) {
+        error.textContent = 'Invalid link';
+        error.style.display = 'block';
+        return;
+      }
 
-  if (!isValidEth(wl)) {
-    error.textContent = 'Invalid ETH wallet';
-    return error.style.display = 'block';
-  }
+      if (!tw.startsWith('@')) tw = '@' + tw.replace(/^@+/, '');
+      document.getElementById('twitter').value = tw;
 
-  loading.style.display = 'block';
+      if (!wl.match(/^0x/i) || !isValidEthAddress(wl)) {
+        error.textContent = 'Invalid wallet address';
+        error.style.display = 'block';
+        return;
+      }
 
-  try {
-    const res = await fetch(SCRIPT_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        action: "submit",                 
-        twitter: tw.startsWith('@') ? tw : '@' + tw,
-        wallet: wl.toLowerCase(),
-        retweetLink: rl,
-        timestamp: new Date().toISOString()
-      })
-    });
+      document.getElementById('submitBtn').disabled = true;
+      loading.style.display = 'block';
 
-    const data = await res.json();         
+      try {
+        const r = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify({
+            action: 'submit',
+            twitter: tw,
+            wallet: wl.toLowerCase(),
+            retweetLink: retweetLink.trim(),
+            timestamp: new Date().toISOString()
+          })
+        });
 
-    loading.style.display = 'none';
+        const d = await r.json();
 
-    if (data.result === "duplicate") {
-      error.textContent = 'Duplicate entry detected';
-      return error.style.display = 'block';
-    }
-
-    if (data.result !== "success") {
-      error.textContent = 'Submit failed';
-      return error.style.display = 'block';
-    }
-
-    welcome.style.display = 'block';
-    document.getElementById('mainForm').classList.add('success');
-
-  } catch (e) {
-    loading.style.display = 'none';
-    error.textContent = 'Network error';
-    error.style.display = 'block';
-  }
-};
-</script>
+        if (d.result === 'success') {
+          const formElements = document.getElementById('formElements');
+          formElements.classList.add('fade-out');
+          setTimeout(() => { formElements.style.display = 'none'; }, 500);
+          welcome.style.display = 'block';
+          document.querySelector('.logo').style.marginBottom = '50px';
+          document.getElementById('twitter').value = '';
+          document.getElementById('wallet').value = '';
+          document.getElementById('retweetLink').value = '';
+        } else if (d.result === 'duplicate') {
+          let msg = '';
+          if (d.details?.twitter)    msg += 'X already used!\n';
+          if (d.details?.wallet)     msg += 'Wallet already used!\n';
+          if (d.details?.retweetLink) msg += 'Link already used!\n';
+          error.textContent = msg.trim() || 'Entry already exists!';
+          error.style.display = 'block';
+        } else {
+          error.textContent = 'Something went wrong';
+          error.style.display = 'block';
+        }
+      } catch (e) {
+        console.error(e);
+        error.textContent = 'Network error – try again later';
+        error.style.display = 'block';
+      } finally {
+        document.getElementById('submitBtn').disabled = false;
+        loading.style.display = 'none';
+      }
+    });
+  </script>
 
 </body>
 </html>
