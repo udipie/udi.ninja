@@ -91,6 +91,7 @@
     .logo {
       width: 300px;
       margin-bottom: 10px;
+      transition: .8s ease;
     }
 
     .instructions {
@@ -176,7 +177,36 @@
     }
 
     .error-msg { color: #ff1b26; }
-    .welcome { color: #61ff58; animation: bounce 1.8s infinite; }
+
+    .welcome {
+      color: #61ff58;
+      font-size: 2.2rem;
+      margin-top: 30px;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: .8s ease;
+      animation: bounce 1.8s infinite;
+    }
+
+    /* ===== SUCCESS EFFECT ===== */
+    .form-content {
+      transition: all .8s ease;
+    }
+
+    .container.success .form-content {
+      opacity: 0;
+      transform: scale(0.9);
+      pointer-events: none;
+    }
+
+    .container.success .logo {
+      transform: scale(1.1);
+    }
+
+    .container.success .welcome {
+      opacity: 1;
+      transform: scale(1.2);
+    }
 
     .footer {
       position: fixed;
@@ -213,23 +243,28 @@
     Make sure completed all X tasks to be eligible for the Whitelist
   </div>
 
-  <input id="twitter" class="compact-input" placeholder="@username">
-  <input id="wallet" class="compact-input" placeholder="0x...eth">
-  <input id="retweetLink" class="compact-input" placeholder="Your comment link containing 'udi'">
+  <!-- FORM CONTENT (FADE OUT) -->
+  <div class="form-content" id="formContent">
 
-  <div class="checkbox-group">
-    <label class="checkbox-label">
-      <input type="checkbox" class="checkbox" id="likeCheck"> Like
-    </label>
-    <label class="checkbox-label">
-      <input type="checkbox" class="checkbox" id="retweetCheck"> Retweet
-    </label>
-    <label class="checkbox-label">
-      <input type="checkbox" class="checkbox" id="followCheck"> Follow
-    </label>
+    <input id="twitter" class="compact-input" placeholder="@username">
+    <input id="wallet" class="compact-input" placeholder="0x...eth">
+    <input id="retweetLink" class="compact-input" placeholder="Your comment link containing 'udi'">
+
+    <div class="checkbox-group">
+      <label class="checkbox-label">
+        <input type="checkbox" class="checkbox" id="likeCheck"> Like
+      </label>
+      <label class="checkbox-label">
+        <input type="checkbox" class="checkbox" id="retweetCheck"> Retweet
+      </label>
+      <label class="checkbox-label">
+        <input type="checkbox" class="checkbox" id="followCheck"> Follow
+      </label>
+    </div>
+
+    <button id="submitBtn">SUBMIT</button>
+
   </div>
-
-  <button id="submitBtn">SUBMIT</button>
 
   <div class="message" id="loading">Submitting...</div>
   <div class="message error-msg" id="error"></div>
@@ -322,6 +357,7 @@ document.getElementById('submitBtn').onclick = async () => {
 
   loading.style.display = 'none';
   welcome.style.display = 'block';
+  document.getElementById('mainForm').classList.add('success');
 };
 </script>
 
