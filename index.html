@@ -320,11 +320,20 @@
 
   <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwqOQBmy5JighmyWMLijzMiVswlgoQta_wQZ3020BwZj9XIYoMMV5mXAaHRvLlA53ts/exec';
-
+    
+    // === X LINKS ===
+    const X_LINKS = {
+    LIKE:    "https://x.com/udininja/status/1234567890123456789",
+    RETWEET: "https://x.com/udininja/status/9876543210987654321",
+    FOLLOW:  "https://x.com/udininja",
+    };
     const passwordScreen = document.getElementById('passwordScreen');
     const mainForm       = document.getElementById('mainForm');
     const passInput      = document.getElementById('passInput');
     const passError      = document.getElementById('passError');
+    let hasOpenedLike    = false;
+    let hasOpenedRetweet = false;
+    let hasOpenedFollow  = false;
 
     if (passInput) passInput.focus();
 
@@ -389,7 +398,30 @@
         error.style.display = 'block';
         return;
       }
+      const likeCb    = document.getElementById("likeCheck");
+      const retweetCb = document.getElementById("retweetCheck");
+      const followCb  = document.getElementById("followCheck");
 
+      likeCb.addEventListener("change", () => {
+       if (likeCb.checked && !hasOpenedLike) {
+         window.open(LIKE_LINK, "_blank");
+         hasOpenedLike = true;
+       }
+      });
+
+      retweetCb.addEventListener("change", () => {
+       if (retweetCb.checked && !hasOpenedRetweet) {
+        window.open(RETWEET_LINK, "_blank");
+        hasOpenedRetweet = true;
+       }
+      });
+
+      followCb.addEventListener("change", () => {
+       if (followCb.checked && !hasOpenedFollow) {
+        window.open(FOLLOW_LINK, "_blank");
+        hasOpenedFollow = true;
+       }
+      });
       document.getElementById('submitBtn').disabled = true;
       loading.style.display = 'block';
 
