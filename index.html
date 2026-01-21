@@ -249,6 +249,69 @@
       color: rgba(255, 255, 255, 0.8);
       max-width: 360px;
     }
+    .task-group {
+      margin: 20px 0;
+      width: 100%;
+      max-width: 360px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+     }
+
+    .task-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+     }
+
+    .task-link {
+      width: 100%;
+      padding: 16px 20px;
+      background: rgba(255, 255, 255, 0.12);
+      border: none;
+      border-radius: 30px;
+      color: white;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      backdrop-filter: blur(10px);
+      text-decoration: none;
+     }
+
+    .task-link:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+     }
+
+    .task-link.completed {
+      background: #61ff58 !important;
+      color: #000;
+      cursor: default;
+     }
+
+    .task-icon {
+      font-size: 1.4rem;
+     }
+
+    .task-hint {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.7);
+      text-align: center;
+      margin: 0;
+     }
+
+    .task-hint.completed {
+      color: #61ff58;
+     }
+
+    .hidden {
+      display: none;
+     }
   </style>
 </head>
 <body>
@@ -289,20 +352,92 @@
         <input type="text" id="retweetLink" placeholder="your 'udi' comment link" class="compact-input">
       </div>
 
-      <div class="checkbox-group">
-        <label class="checkbox-label">
-          <input type="checkbox" class="checkbox" id="likeCheck">
-          Like
-        </label>
-        <label class="checkbox-label">
-          <input type="checkbox" class="checkbox" id="retweetCheck">
-          Retweet
-        </label>
-        <label class="checkbox-label">
-          <input type="checkbox" class="checkbox" id="followCheck">
-          Follow
-        </label>
-      </div>
+      <div
+  class="task-group"
+  style="
+    margin: 20px 0;
+    width: 100%;
+    max-width: 360px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  "
+>
+  <!-- Task Like -->
+  <div class="task-item">
+    <a
+      href="https://x.com/udininja?s=21"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="task-link"
+      id="linkLike"
+      onclick="markAsCompleted('like'); checkCheckbox('likeCheck')"
+    >
+      <span class="task-icon">❤️</span>
+      Like bài post
+    </a>
+
+    <p class="task-hint" id="hintLike">
+      Click để mở và like nhé!
+    </p>
+
+    <input
+      type="checkbox"
+      class="checkbox hidden"
+      id="likeCheck"
+    >
+  </div>
+
+  <!-- Task Retweet -->
+  <div class="task-item">
+    <a
+      href="https://x.com/udininja?s=21"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="task-link"
+      id="linkRetweet"
+      onclick="markAsCompleted('retweet'); checkCheckbox('retweetCheck')"
+    >
+      <span class="task-icon">🔁</span>
+      Retweet & Comment
+    </a>
+
+    <p class="task-hint" id="hintRetweet">
+      Click để mở và retweet + comment
+    </p>
+
+    <input
+      type="checkbox"
+      class="checkbox hidden"
+      id="retweetCheck"
+    >
+  </div>
+
+  <!-- Task Follow -->
+  <div class="task-item">
+    <a
+      href="https://x.com/udininja?s=21"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="task-link"
+      id="linkFollow"
+      onclick="markAsCompleted('follow'); checkCheckbox('followCheck')"
+    >
+      <span class="task-icon">👤</span>
+      Follow @udininja
+    </a>
+
+    <p class="task-hint" id="hintFollow">
+      Click để follow profile
+    </p>
+
+    <input
+      type="checkbox"
+      class="checkbox hidden"
+      id="followCheck"
+    >
+  </div>
+  </div>
 
       <button id="submitBtn">SUBMIT</button>
     </div>
@@ -327,6 +462,44 @@
     RETWEET: "https://x.com/udininja?s=21",
     FOLLOW:  "https://x.com/udininja?s=21",
     };
+    // === ASSIGN REAL LINKS ===
+    document.getElementById("linkLike").href    = X_LINKS.LIKE;
+    document.getElementById("linkRetweet").href = X_LINKS.RETWEET;
+    document.getElementById("linkFollow").href  = X_LINKS.FOLLOW;
+
+
+    // === TASK STATE ===
+    let completed = {
+    like: false,
+    retweet: false,
+    follow: false,
+    };
+
+
+    // === HANDLE TASK ===
+    function handleTask(type) {
+    if (completed[type]) return;
+
+    completed[type] = true;
+
+    const capitalized =
+    type.charAt(0).toUpperCase() + type.slice(1);
+
+    const linkEl = document.getElementById(`link${capitalized}`);
+    const hintEl = document.getElementById(`hint${capitalized}`);
+
+    linkEl.classList.add("completed");
+    linkEl.innerHTML = linkEl.innerHTML.replace(
+    /Like|Retweet|Follow/,
+    "Done ✓"
+    );
+    linkEl.removeAttribute("href");
+
+    hintEl.classList.add("completed");
+    hintEl.textContent = "Step completed";
+
+    document.getElementById(`${type}Check`).checked = true;
+    }
     const passwordScreen = document.getElementById('passwordScreen');
     const mainForm       = document.getElementById('mainForm');
     const passInput      = document.getElementById('passInput');
@@ -398,28 +571,7 @@
         error.style.display = 'block';
         return;
       }
-      // === EVENTS ===
-      const btnLike    = document.getElementById("btnLike");
-      const btnRetweet = document.getElementById("btnRetweet");
-      const btnFollow  = document.getElementById("btnFollow");
-
-      btnLike.addEventListener("click", () => {
-      if (completed.like) return;
-      window.open(LIKE_LINK, "_blank", "noopener,noreferrer");
-      markAsCompleted("like");
-      });
-
-      btnRetweet.addEventListener("click", () => {
-      if (completed.retweet) return;
-      window.open(RETWEET_LINK, "_blank", "noopener,noreferrer");
-      markAsCompleted("retweet");
-      });
-
-      btnFollow.addEventListener("click", () => {
-      if (completed.follow) return;
-      window.open(FOLLOW_LINK, "_blank", "noopener,noreferrer");
-      markAsCompleted("follow");
-      });
+      
       document.getElementById('submitBtn').disabled = true;
       loading.style.display = 'block';
 
