@@ -170,7 +170,7 @@
     }
 
     .message {
-      margin-top: 20px;
+      margin-top: 16px;
       font-weight: bold;
       display: none;
       white-space: pre-line;
@@ -180,10 +180,10 @@
 
     .welcome {
       color: #61ff58;
-      font-size: 2.2rem;
-      margin-top: 30px;
+      font-size: 2.3rem;
+      margin-top: 20px; /* trạng thái bình thường */
       opacity: 0;
-      transform: scale(0.8);
+      transform: scale(0.85);
       transition: .8s ease;
       animation: bounce 1.8s infinite;
     }
@@ -199,22 +199,14 @@
       pointer-events: none;
     }
 
+    /* LOGO + WELCOME XÍCH LẠI KHI SUCCESS */
     .container.success .logo {
-      transform: scale(1.1);
+      transform: translateY(18px) scale(1.1);
     }
 
     .container.success .welcome {
       opacity: 1;
-      transform: scale(1.2);
-    }
-
-    .footer {
-      position: fixed;
-      bottom: 15px;
-      font-size: .75rem;
-      letter-spacing: 1.5px;
-      display: flex;
-      gap: 14px;
+      transform: translateY(-18px) scale(1.25);
     }
 
     @keyframes bounce {
@@ -239,12 +231,11 @@
 <div class="container" id="mainForm">
   <img src="Unseal.png" class="logo" alt="UDI">
 
-  <div class="instructions">
-    Make sure completed all X tasks to be eligible for the Whitelist
-  </div>
-
-  <!-- FORM CONTENT (FADE OUT) -->
   <div class="form-content" id="formContent">
+
+    <div class="instructions">
+      Make sure completed all X tasks to be eligible for the Whitelist
+    </div>
 
     <input id="twitter" class="compact-input" placeholder="@username">
     <input id="wallet" class="compact-input" placeholder="0x...eth">
@@ -263,7 +254,6 @@
     </div>
 
     <button id="submitBtn">SUBMIT</button>
-
   </div>
 
   <div class="message" id="loading">Submitting...</div>
@@ -298,7 +288,7 @@ passInput.addEventListener('input', () => {
   }
 });
 
-/* ================= X TASKS (ANTI SPAM) ================= */
+/* ================= X TASKS ================= */
 const opened = { like:false, retweet:false, follow:false };
 
 function bindTask(id, key, url) {
