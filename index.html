@@ -3,21 +3,26 @@
 <head>
   <!-- ================= META ================= -->
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  >
 
   <title>$UDI</title>
 
-  <!-- ================= ICON ================= -->
+  <!-- ================= ICONS ================= -->
   <link rel="icon" href="UDifavicon.png" type="image/png">
   <link rel="apple-touch-icon" href="UDifavicon.png">
 
   <!-- ================= FONT ================= -->
-  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap"
+    rel="stylesheet"
+  >
 
-  <!-- ================= STYLE ================= -->
+  <!-- ================= STYLES ================= -->
   <style>
-    /* ========== RESET ========== */
+    /* ===== RESET ===== */
     *, *::before, *::after {
       box-sizing: border-box;
     }
@@ -40,7 +45,7 @@
       font-family: 'Special Elite', monospace !important;
     }
 
-    /* ========== COMMON ========== */
+    /* ===== COMMON ===== */
     .hidden {
       display: none;
     }
@@ -60,10 +65,10 @@
 
     @keyframes bounce {
       0%, 100% { transform: translateY(0); }
-      50%      { transform: translateY(-8px); }
+      50% { transform: translateY(-8px); }
     }
 
-    /* ========== PASSWORD SCREEN ========== */
+    /* ===== PASSWORD SCREEN ===== */
     .password-screen {
       position: fixed;
       inset: 0;
@@ -119,7 +124,7 @@
       opacity: 1;
     }
 
-    /* ========== MAIN FORM ========== */
+    /* ===== MAIN FORM ===== */
     .container {
       max-width: 420px;
       width: 100%;
@@ -156,6 +161,7 @@
       backdrop-filter: blur(10px);
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
       outline: none;
+      font-family: 'Special Elite', monospace !important;
     }
 
     .compact-input::placeholder {
@@ -178,6 +184,7 @@
       letter-spacing: 3px;
       cursor: pointer;
       transition: 0.3s;
+      font-family: 'Special Elite', monospace !important;
     }
 
     button:hover {
@@ -186,7 +193,7 @@
       transform: translateY(-2px);
     }
 
-    /* ========== TASKS ========== */
+    /* ===== TASKS ===== */
     .task-group {
       margin: 20px 0;
       width: 100%;
@@ -194,6 +201,12 @@
       display: flex;
       flex-direction: column;
       gap: 16px;
+    }
+
+    .task-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
     }
 
     .task-link {
@@ -233,7 +246,7 @@
       color: #61ff58;
     }
 
-    /* ========== MESSAGE ========== */
+    /* ===== MESSAGE ===== */
     .message {
       margin-top: 20px;
       font-size: 1rem;
@@ -262,7 +275,7 @@
   <div class="pass-container">
     <img src="Infeeno.png" class="pass-logo" alt="UDI">
     <input id="passInput" placeholder="Password..." autocomplete="off">
-    <div class="pass-error" id="passError">Wrong Password!</div>
+    <div class="pass-error" id="passError">Wrong password!</div>
   </div>
 
   <div class="footer">
@@ -272,30 +285,36 @@
   </div>
 </div>
 
-<!-- ================= MAIN ================= -->
+<!-- ================= MAIN FORM ================= -->
 <div class="container" id="mainForm" style="display:none;">
   <img src="Unseal.png" class="logo" alt="UDI">
 
-  <div id="formElements">
+  <div class="form-elements" id="formElements">
     <div class="instructions">
-      Make sure completed all steps to be eligible for the Whitelist
+      Make sure you complete all steps to be eligible for the Whitelist
     </div>
 
     <input id="twitter" class="compact-input" placeholder="@username...">
     <br>
-    <input id="wallet" class="compact-input" placeholder="0x...eth">
+    <input id="wallet" class="compact-input" placeholder="0x...eth)">
     <br>
     <input id="retweetLink" class="compact-input" placeholder="your 'udi' comment link">
 
     <div class="task-group">
-      <a class="task-link" id="linkLike">Like</a>
-      <p class="task-hint" id="hintLike"></p>
+      <div class="task-item">
+        <a class="task-link" id="linkLike">Like</a>
+        <p class="task-hint" id="hintLike"></p>
+      </div>
 
-      <a class="task-link" id="linkRetweet">Retweet</a>
-      <p class="task-hint" id="hintRetweet"></p>
+      <div class="task-item">
+        <a class="task-link" id="linkRetweet">Retweet</a>
+        <p class="task-hint" id="hintRetweet"></p>
+      </div>
 
-      <a class="task-link" id="linkFollow">Follow</a>
-      <p class="task-hint" id="hintFollow"></p>
+      <div class="task-item">
+        <a class="task-link" id="linkFollow">Follow</a>
+        <p class="task-hint" id="hintFollow"></p>
+      </div>
     </div>
 
     <button id="submitBtn">SUBMIT</button>
@@ -304,49 +323,136 @@
   <div class="message" id="loading">Submitting...</div>
   <div class="message error-msg" id="error"></div>
   <div class="message welcome" id="welcome">Welcome to UDION!</div>
+
+  <div class="footer">
+    <span>© 2025 UDI. All rights reserved.</span>
+    <span>│</span>
+    <span>contact@udi.ninja</span>
+  </div>
 </div>
 
 <!-- ================= SCRIPT ================= -->
 <script>
+  /* ===== CONFIG ===== */
   const PASSWORD = 'tridy';
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwqOQBmy5JighmyWMLijzMiVswlgoQta_wQZ3020BwZj9XIYoMMV5mXAaHRvLlA53ts/exec';
-  const X_URL = 'https://x.com/udininja';
 
+  const X_LINKS = {
+    LIKE:    'https://x.com/udininja/status/1876543210987654321',
+    RETWEET: 'https://x.com/udininja/status/1876543210987654321',
+    FOLLOW:  'https://x.com/udininja'
+  };
+
+  /* ===== TASK STATE ===== */
   const completed = { like:false, retweet:false, follow:false };
 
-  ['Like','Retweet','Follow'].forEach(t => {
-    const el = document.getElementById('link' + t);
-    el.href = X_URL;
+  ['Like','Retweet','Follow'].forEach(type => {
+    const el = document.getElementById(`link${type}`);
+    el.href = X_LINKS[type.toUpperCase()];
     el.target = '_blank';
-    el.onclick = () => handleTask(t.toLowerCase());
+    el.onclick = () => handleTask(type.toLowerCase());
   });
 
-  function handleTask(type){
-    if(completed[type]) return;
+  function handleTask(type) {
+    if (completed[type]) return;
     completed[type] = true;
 
-    const link = document.getElementById('link' + cap(type));
-    const hint = document.getElementById('hint' + cap(type));
+    const cap = type.charAt(0).toUpperCase() + type.slice(1);
+    const link = document.getElementById(`link${cap}`);
+    const hint = document.getElementById(`hint${cap}`);
 
     link.classList.add('completed');
-    link.innerHTML = 'Done ✓';
+    link.textContent = 'Done ✓';
     link.removeAttribute('href');
 
     hint.classList.add('completed');
-    hint.textContent = 'Step completed';
+    hint.textContent = 'Completed';
   }
 
-  function cap(s){ return s[0].toUpperCase()+s.slice(1); }
-
+  /* ===== PASSWORD ===== */
   passInput.oninput = e => {
     e.target.value = e.target.value.toLowerCase().trim();
     passError.classList.remove('show');
 
-    if(e.target.value === PASSWORD){
-      passwordScreen.style.display='none';
-      mainForm.style.display='flex';
-    } else if(e.target.value.length >= PASSWORD.length){
+    if (e.target.value === PASSWORD) {
+      passwordScreen.style.display = 'none';
+      mainForm.style.display = 'flex';
+    } else if (e.target.value.length >= PASSWORD.length) {
       passError.classList.add('show');
+    }
+  };
+
+  /* ===== VALIDATION ===== */
+  function isValidEthAddress(addr) {
+    return /^0x[a-fA-F0-9]{40}$/.test(addr);
+  }
+
+  /* ===== SUBMIT ===== */
+  submitBtn.onclick = async () => {
+    let twitter = twitterInput.value.trim();
+    const wallet = walletInput.value.trim();
+    const link   = retweetLink.value.trim();
+
+    error.style.display = welcome.style.display = loading.style.display = 'none';
+
+    if (!twitter || !wallet || !link) {
+      error.textContent = 'Please fill in all required fields';
+      error.style.display = 'block';
+      return;
+    }
+
+    if (!completed.like || !completed.retweet || !completed.follow) {
+      error.textContent = 'Please complete all required tasks';
+      error.style.display = 'block';
+      return;
+    }
+
+    if (!link.includes('x.com') && !link.includes('twitter.com')) {
+      error.textContent = 'Invalid link';
+      error.style.display = 'block';
+      return;
+    }
+
+    if (!twitter.startsWith('@')) twitter = '@' + twitter.replace(/^@+/, '');
+    twitterInput.value = twitter;
+
+    if (!isValidEthAddress(wallet)) {
+      error.textContent = 'Invalid wallet address';
+      error.style.display = 'block';
+      return;
+    }
+
+    submitBtn.disabled = true;
+    loading.style.display = 'block';
+
+    try {
+      const res = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({
+          action: 'submit',
+          twitter,
+          wallet: wallet.toLowerCase(),
+          retweetLink: link,
+          timestamp: new Date().toISOString()
+        })
+      });
+
+      const data = await res.json();
+
+      if (data.result === 'success') {
+        formElements.style.display = 'none';
+        welcome.style.display = 'block';
+      } else {
+        error.textContent = 'Submission failed';
+        error.style.display = 'block';
+      }
+    } catch {
+      error.textContent = 'Network error. Please try again later.';
+      error.style.display = 'block';
+    } finally {
+      submitBtn.disabled = false;
+      loading.style.display = 'none';
     }
   };
 </script>
