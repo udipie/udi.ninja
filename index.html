@@ -334,20 +334,43 @@ document.getElementById('submitBtn').onclick = async () => {
 
   loading.style.display = 'block';
 
-  await fetch(SCRIPT_URL, {
-    method: 'POST',
-    headers: {'Content-Type':'text/plain'},
-    body: JSON.stringify({
-      twitter: tw.startsWith('@') ? tw : '@'+tw,
-      wallet: wl.toLowerCase(),
-      retweetLink: rl,
-      timestamp: new Date().toISOString()
-    })
-  });
+  try {
+    const res = await fetch(SCRIPT_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        action: "submit",                 
+        twitter: tw.startsWith('@') ? tw : '@' + tw,
+        wallet: wl.toLowerCase(),
+        retweetLink: rl,
+        timestamp: new Date().toISOString()
+      })
+    });
 
-  loading.style.display = 'none';
-  welcome.style.display = 'block';
-  document.getElementById('mainForm').classList.add('success');
+    const data = await res.json();         
+
+    loading.style.display = 'none';
+
+    if (data.result === "duplicate") {
+      error.textContent = 'Duplicate entry detected';
+      return error.style.display = 'block';
+    }
+
+    if (data.result !== "success") {
+      error.textContent = 'Submit failed';
+      return error.style.display = 'block';
+    }
+
+    welcome.style.display = 'block';
+    document.getElementById('mainForm').classList.add('success');
+
+  } catch (e) {
+    loading.style.display = 'none';
+    error.textContent = 'Network error';
+    error.style.display = 'block';
+  }
 };
 </script>
 
