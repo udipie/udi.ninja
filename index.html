@@ -398,29 +398,27 @@
         error.style.display = 'block';
         return;
       }
-      const likeCb    = document.getElementById("likeCheck");
-      const retweetCb = document.getElementById("retweetCheck");
-      const followCb  = document.getElementById("followCheck");
+      // === EVENTS ===
+      const btnLike    = document.getElementById("btnLike");
+      const btnRetweet = document.getElementById("btnRetweet");
+      const btnFollow  = document.getElementById("btnFollow");
 
-      likeCb.addEventListener("change", () => {
-       if (likeCb.checked && !hasOpenedLike) {
-         window.open(LIKE_LINK, "_blank");
-         hasOpenedLike = true;
-       }
+      btnLike.addEventListener("click", () => {
+      if (completed.like) return;
+      window.open(LIKE_LINK, "_blank", "noopener,noreferrer");
+      markAsCompleted("like");
       });
 
-      retweetCb.addEventListener("change", () => {
-       if (retweetCb.checked && !hasOpenedRetweet) {
-        window.open(RETWEET_LINK, "_blank");
-        hasOpenedRetweet = true;
-       }
+      btnRetweet.addEventListener("click", () => {
+      if (completed.retweet) return;
+      window.open(RETWEET_LINK, "_blank", "noopener,noreferrer");
+      markAsCompleted("retweet");
       });
 
-      followCb.addEventListener("change", () => {
-       if (followCb.checked && !hasOpenedFollow) {
-        window.open(FOLLOW_LINK, "_blank");
-        hasOpenedFollow = true;
-       }
+      btnFollow.addEventListener("click", () => {
+      if (completed.follow) return;
+      window.open(FOLLOW_LINK, "_blank", "noopener,noreferrer");
+      markAsCompleted("follow");
       });
       document.getElementById('submitBtn').disabled = true;
       loading.style.display = 'block';
