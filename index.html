@@ -4,41 +4,42 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>$UDI</title>
-
   <link rel="icon" href="UDifavicon.png" type="image/png">
   <link rel="apple-touch-icon" href="UDifavicon.png">
   <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
 
   <style>
-    *, *::before, *::after { box-sizing: border-box; }
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
 
     html, body {
       margin: 0;
       padding: 0;
-      width: 100%;
       height: 100%;
+      width: 100%;
       overflow-x: hidden;
     }
 
     body {
       background: #fd8c00;
-      color: #fff;
-      font-family: 'Special Elite', monospace;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      color: white;
       min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Special Elite', monospace !important;
     }
 
-    /* ================= PASSWORD ================= */
+    /* PASSWORD SCREEN */
     .password-screen {
       position: fixed;
       inset: 0;
       background: #fd8c00;
       display: flex;
-      justify-content: center;
       align-items: center;
-      z-index: 10;
+      justify-content: center;
+      z-index: 1;
       padding: 20px;
     }
 
@@ -50,97 +51,188 @@
 
     .pass-logo {
       width: 240px;
-      margin-bottom: 12px;
+      max-width: 90vw;
+      margin-bottom: 10px;
       animation: bounce 1.8s infinite;
     }
 
     #passInput {
       width: 100%;
-      padding: 16px 20px;
-      border-radius: 30px;
+      padding: 18px 20px;
+      background: rgba(255, 255, 255, 0.08);
       border: none;
       outline: none;
-      text-align: center;
+      box-shadow: none;
+      border-radius: 30px;
+      color: white;
       font-size: 1.2rem;
+      text-align: center;
       letter-spacing: 3px;
-      color: #fff;
-      background: rgba(255,255,255,.08);
+      backdrop-filter: blur(10px);
+      font-family: 'Special Elite', monospace !important;
+    }
+
+    #passInput::placeholder {
+      color: rgba(255, 255, 255, 0.3);
     }
 
     .pass-error {
       margin-top: 10px;
       color: #ff1b26;
       font-weight: bold;
+      font-size: 1.1rem;
       opacity: 0;
-      transition: .3s;
+      transition: opacity .4s;
     }
 
-    .pass-error.show { opacity: 1; }
+    .pass-error.show {
+      opacity: 1;
+    }
 
-    /* ================= MAIN FORM ================= */
+    /* MAIN FORM */
     .container {
+      text-align: center;
       max-width: 420px;
       width: 100%;
-      text-align: center;
-      display: none;
+      padding: 8px;
+      display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 10px;
     }
 
     .logo {
       width: 300px;
+      max-width: 90vw;
       margin-bottom: 10px;
-      transition: .8s ease;
-    }
-
-    .instructions {
-      margin-bottom: 16px;
-      font-size: 1.1rem;
-      opacity: .85;
     }
 
     .compact-input {
       width: 100%;
       max-width: 360px;
-      padding: 16px 20px;
-      border-radius: 30px;
+      padding: 16px 20px !important;
+      background: rgba(255, 255, 255, 0.08);
       border: none;
-      outline: none;
-      margin: 8px 0;
+      border-radius: 30px;
+      color: white;
+      font-size: 1.35rem !important;
       text-align: center;
-      font-size: 1.3rem;
-      color: #fafafa;
-      background: rgba(255,255,255,.08);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      font-family: 'Special Elite', monospace !important;
+    }
+
+    .compact-input::placeholder {
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    .compact-input:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 14px 40px;
+      background: rgba(255, 255, 255, 0.08);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-size: 1.4rem;
+      font-weight: bold;
+      letter-spacing: 3px;
+      cursor: pointer;
+      transition: all .3s;
+      font-family: 'Special Elite', monospace !important;
+    }
+
+    button:hover {
+      background: white;
+      color: #ff8c00;
+      transform: translateY(-2px);
+    }
+
+    .message {
+      margin-top: 20px;
+      font-size: 1rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+      display: none;
+      white-space: pre-line;
+      text-align: center;
+    }
+
+    .error-msg {
+      color: #ff1b26;
+    }
+
+    .welcome {
+      font-size: 1.3rem !important;
+      color: #61ff58;
+      animation: bounce 1.8s infinite;
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.75rem;
+      font-weight: bold;
+      letter-spacing: 1.5px;
+      display: flex;
+      gap: 20px;
+      white-space: nowrap;
+    }
+
+    .form-elements {
+      transition: opacity 0.8s ease-out;
+      opacity: 1;
+    }
+
+    .form-elements.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-8px);
+      }
     }
 
     .checkbox-group {
-      display: flex;
-      justify-content: center;
-      gap: 28px;
       margin: 20px 0;
+      display: flex;
       flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      width: 100%;
+      max-width: 360px;
     }
 
     .checkbox-label {
       display: flex;
       align-items: center;
-      gap: 8px;
       font-size: 1.1rem;
       cursor: pointer;
+      gap: 8px;
+      white-space: nowrap;
     }
 
     .checkbox {
       width: 20px;
       height: 20px;
       appearance: none;
-      background: rgba(255,255,255,.15);
+      background: rgba(255, 255, 255, 0.08);
       border-radius: 5px;
       cursor: pointer;
       position: relative;
     }
 
-    .checkbox:checked::after {
+    .checkbox:checked::before {
       content: '✔';
       position: absolute;
       top: 50%;
@@ -150,237 +242,202 @@
       font-size: 1.2rem;
     }
 
-    button {
-      margin-top: 12px;
-      padding: 14px 40px;
-      border-radius: 30px;
-      border: none;
-      font-size: 1.3rem;
-      font-weight: bold;
-      letter-spacing: 3px;
-      cursor: pointer;
-      background: rgba(255,255,255,.1);
-      color: #fff;
-      transition: .3s;
-    }
-
-    button:hover {
-      background: #fff;
-      color: #fd8c00;
-    }
-
-    .message {
-      margin-top: 16px;
-      font-weight: bold;
-      display: none;
-      white-space: pre-line;
-    }
-
-    .error-msg { color: #ff1b26; }
-
-    .welcome {
-      color: #61ff58;
-      font-size: 2.3rem;
-      margin-top: 20px; 
-      opacity: 0;
-      transform: scale(0.85);
-      transition: .8s ease;
-      animation: bounce 1.8s infinite;
-    }
-
-    /* ===== SUCCESS EFFECT ===== */
-    .form-content {
-      transition: all .8s ease;
-    }
-
-    .container.success .form-content {
-      opacity: 0;
-      transform: scale(0.9);
-      pointer-events: none;
-    }
-
-    /* LOGO + WELCOME CLOSE SUCCESS */
-    .container.success .logo {
-      transform: translateY(18px) scale(1.1);
-    }
-
-    .container.success .welcome {
-      opacity: 1;
-      transform: translateY(-18px) scale(1.25);
-    }
-
-    @keyframes bounce {
-      0%,100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
+    .instructions {
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.8);
+      max-width: 360px;
     }
   </style>
 </head>
-
 <body>
 
-<!-- ================= PASSWORD ================= -->
-<div class="password-screen" id="passwordScreen">
-  <div class="pass-container">
-    <img src="Infeeno.png" class="pass-logo" alt="UDI">
-    <input id="passInput" placeholder="Password..." autocomplete="off">
-    <div class="pass-error" id="passError">Wrong Password!</div>
-  </div>
-</div>
-
-<!-- ================= FORM ================= -->
-<div class="container" id="mainForm">
-  <img src="Unseal.png" class="logo" alt="UDI">
-
-  <div class="form-content" id="formContent">
-
-    <div class="instructions">
-      Make sure completed all X tasks to be eligible for the Whitelist
+  <!-- PASSWORD SCREEN -->
+  <div class="password-screen" id="passwordScreen">
+    <div class="pass-container">
+      <img src="Infeeno.png" alt="UDI" class="pass-logo">
+      <input type="text" inputmode="text" id="passInput" placeholder="Password..." autocomplete="off">
+      <div class="pass-error" id="passError">Wrong Password!</div>
     </div>
 
-    <input id="twitter" class="compact-input" placeholder="@username">
-    <input id="wallet" class="compact-input" placeholder="0x...eth">
-    <input id="retweetLink" class="compact-input" placeholder="Your comment link containing 'udi'">
-
-    <div class="checkbox-group">
-      <label class="checkbox-label">
-        <input type="checkbox" class="checkbox" id="likeCheck"> Like
-      </label>
-      <label class="checkbox-label">
-        <input type="checkbox" class="checkbox" id="retweetCheck"> Retweet
-      </label>
-      <label class="checkbox-label">
-        <input type="checkbox" class="checkbox" id="followCheck"> Follow
-      </label>
+    <div class="footer">
+      <span>© 2025 UDI. All rights reserved.</span>
+      <span>│</span>
+      <span>contact@udi.ninja</span>
     </div>
-
-    <button id="submitBtn">SUBMIT</button>
   </div>
 
-  <div class="message" id="loading">Submitting...</div>
-  <div class="message error-msg" id="error"></div>
-  <div class="message welcome" id="welcome">Welcome to UDION!</div>
-</div>
+  <!-- MAIN FORM -->
+  <div class="container" id="mainForm" style="display: none;">
+    <img src="Unseal.png" alt="UDI" class="logo">
 
-<script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwqOQBmy5JighmyWMLijzMiVswlgoQta_wQZ3020BwZj9XIYoMMV5mXAaHRvLlA53ts/exec';
+    <div class="form-elements" id="formElements">
+      <div class="instructions">
+        Make sure completed all steps to be eligible for the Whitelist
+      </div>
 
-    const passwordScreen = document.getElementById('passwordScreen');
-    const mainForm       = document.getElementById('mainForm');
-    const passInput      = document.getElementById('passInput');
-    const passError      = document.getElementById('passError');
+      <div style="margin: 8px 0;">
+        <input type="text" id="twitter" placeholder="@username..." class="compact-input">
+      </div>
 
-    if (passInput) passInput.focus();
+      <div style="margin: 8px 0;">
+        <input type="text" id="wallet" placeholder="0x...eth" class="compact-input">
+      </div>
 
-    passInput.addEventListener('input', function () {
-      this.value = this.value.toLowerCase().trim();
-      passError.classList.remove('show');
+      <div style="margin: 8px 0;">
+        <input type="text" id="retweetLink" placeholder="...udi comment link" class="compact-input">
+      </div>
 
-      if (this.value === 'tridy') {
-        passwordScreen.style.opacity = '0';
-        setTimeout(() => {
-          passwordScreen.style.display = 'none';
-          mainForm.style.display = 'flex';
-        }, 250);
-      } else if (this.value.length >= 5) {
-        passError.textContent = 'Wrong Password!';
-        passError.classList.add('show');
-      }
-    });
+      <div class="checkbox-group">
+        <label class="checkbox-label">
+          <input type="checkbox" class="checkbox" id="likeCheck">
+          Like
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" class="checkbox" id="retweetCheck">
+          Retweet
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" class="checkbox" id="followCheck">
+          Follow
+        </label>
+      </div>
 
-    function isValidEthAddress(a) {
-      return /^0x[a-fA-F0-9]{40}$/i.test(a);
-    }
+      <button id="submitBtn">SUBMIT</button>
+    </div>
 
-    document.getElementById('submitBtn').addEventListener('click', async () => {
-      let tw          = document.getElementById('twitter').value.trim();
-      let wl          = document.getElementById('wallet').value.trim();
-      let retweetLink = document.getElementById('retweetLink').value.trim();
+    <div class="message" id="loading">Submitting...</div>
+    <div class="message error-msg" id="error"></div>
+    <div class="message welcome" id="welcome">Welcome to UDION!</div>
 
-      const likeCheck    = document.getElementById('likeCheck').checked;
-      const retweetCheck = document.getElementById('retweetCheck').checked;
-      const followCheck  = document.getElementById('followCheck').checked;
+    <div class="footer">
+      <span>© 2025 UDI. All rights reserved.</span>
+      <span>│</span>
+      <span>contact@udi.ninja</span>
+    </div>
+  </div>
 
-      const loading = document.getElementById('loading');
-      const error   = document.getElementById('error');
-      const welcome = document.getElementById('welcome');
+  <script>
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzGbWzOpggF7-Xy3Izec0Ht0FYMJtNHYPvxgbAjJBAP7D5ele1Z2qXFow2gcl2WFzQu/exec';
 
-      loading.style.display = error.style.display = welcome.style.display = 'none';
+    const passwordScreen = document.getElementById('passwordScreen');
+    const mainForm       = document.getElementById('mainForm');
+    const passInput      = document.getElementById('passInput');
+    const passError      = document.getElementById('passError');
 
-      if (!tw || !wl || !retweetLink) {
-        error.textContent = 'Please fill all fields';
-        error.style.display = 'block';
-        return;
-      }
+    if (passInput) passInput.focus();
 
-      if (!likeCheck || !retweetCheck || !followCheck) {
-        error.textContent = 'Please complete all steps (Like, Retweet, Follow)';
-        error.style.display = 'block';
-        return;
-      }
+    passInput.addEventListener('input', function () {
+      this.value = this.value.toLowerCase().trim();
+      passError.classList.remove('show');
 
-      if (retweetLink && !retweetLink.includes('x.com') && !retweetLink.includes('twitter.com')) {
-        error.textContent = 'Invalid link';
-        error.style.display = 'block';
-        return;
-      }
+      if (this.value === 'tridy') {
+        passwordScreen.style.opacity = '0';
+        setTimeout(() => {
+          passwordScreen.style.display = 'none';
+          mainForm.style.display = 'flex';
+        }, 250);
+      } else if (this.value.length >= 5) {
+        passError.textContent = 'Wrong Password!';
+        passError.classList.add('show');
+      }
+    });
 
-      if (!tw.startsWith('@')) tw = '@' + tw.replace(/^@+/, '');
-      document.getElementById('twitter').value = tw;
+    function isValidEthAddress(a) {
+      return /^0x[a-fA-F0-9]{40}$/i.test(a);
+    }
 
-      if (!wl.match(/^0x/i) || !isValidEthAddress(wl)) {
-        error.textContent = 'Invalid wallet address';
-        error.style.display = 'block';
-        return;
-      }
+    document.getElementById('submitBtn').addEventListener('click', async () => {
+      let tw          = document.getElementById('twitter').value.trim();
+      let wl          = document.getElementById('wallet').value.trim();
+      let retweetLink = document.getElementById('retweetLink').value.trim();
 
-      document.getElementById('submitBtn').disabled = true;
-      loading.style.display = 'block';
+      const likeCheck    = document.getElementById('likeCheck').checked;
+      const retweetCheck = document.getElementById('retweetCheck').checked;
+      const followCheck  = document.getElementById('followCheck').checked;
 
-      try {
-        const r = await fetch(SCRIPT_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain' },
-          body: JSON.stringify({
-            action: 'submit',
-            twitter: tw,
-            wallet: wl.toLowerCase(),
-            retweetLink: retweetLink.trim(),
-            timestamp: new Date().toISOString()
-          })
-        });
+      const loading = document.getElementById('loading');
+      const error   = document.getElementById('error');
+      const welcome = document.getElementById('welcome');
 
-        const d = await r.json();
+      loading.style.display = error.style.display = welcome.style.display = 'none';
 
-        if (d.result === 'success') {
-          const formElements = document.getElementById('formElements');
-          formElements.classList.add('fade-out');
-          setTimeout(() => { formElements.style.display = 'none'; }, 500);
-          welcome.style.display = 'block';
-          document.querySelector('.logo').style.marginBottom = '50px';
-          document.getElementById('twitter').value = '';
-          document.getElementById('wallet').value = '';
-          document.getElementById('retweetLink').value = '';
-        } else if (d.result === 'duplicate') {
-          let msg = '';
-          if (d.details?.twitter)    msg += 'X already used!\n';
-          if (d.details?.wallet)     msg += 'Wallet already used!\n';
-          if (d.details?.retweetLink) msg += 'Link already used!\n';
-          error.textContent = msg.trim() || 'Entry already exists!';
-          error.style.display = 'block';
-        } else {
-          error.textContent = 'Something went wrong';
-          error.style.display = 'block';
-        }
-      } catch (e) {
-        console.error(e);
-        error.textContent = 'Network error – try again later';
-        error.style.display = 'block';
-      } finally {
-        document.getElementById('submitBtn').disabled = false;
-        loading.style.display = 'none';
-      }
-    });
-  </script>
+      if (!tw || !wl || !retweetLink) {
+        error.textContent = 'Please fill all fields';
+        error.style.display = 'block';
+        return;
+      }
+
+      if (!likeCheck || !retweetCheck || !followCheck) {
+        error.textContent = 'Please complete all steps (Like, Retweet, Follow)';
+        error.style.display = 'block';
+        return;
+      }
+
+      if (retweetLink && !retweetLink.includes('x.com') && !retweetLink.includes('twitter.com')) {
+        error.textContent = 'Invalid link';
+        error.style.display = 'block';
+        return;
+      }
+
+      if (!tw.startsWith('@')) tw = '@' + tw.replace(/^@+/, '');
+      document.getElementById('twitter').value = tw;
+
+      if (!wl.match(/^0x/i) || !isValidEthAddress(wl)) {
+        error.textContent = 'Invalid wallet address';
+        error.style.display = 'block';
+        return;
+      }
+
+      document.getElementById('submitBtn').disabled = true;
+      loading.style.display = 'block';
+
+      try {
+        const r = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify({
+            action: 'submit',
+            twitter: tw,
+            wallet: wl.toLowerCase(),
+            retweetLink: retweetLink.trim(),
+            timestamp: new Date().toISOString()
+          })
+        });
+
+        const d = await r.json();
+
+        if (d.result === 'success') {
+          const formElements = document.getElementById('formElements');
+          formElements.classList.add('fade-out');
+          setTimeout(() => { formElements.style.display = 'none'; }, 500);
+          welcome.style.display = 'block';
+          document.querySelector('.logo').style.marginBottom = '50px';
+          document.getElementById('twitter').value = '';
+          document.getElementById('wallet').value = '';
+          document.getElementById('retweetLink').value = '';
+        } else if (d.result === 'duplicate') {
+          let msg = '';
+          if (d.details?.twitter)    msg += 'X already used!\n';
+          if (d.details?.wallet)     msg += 'Wallet already used!\n';
+          if (d.details?.retweetLink) msg += 'Link already used!\n';
+          error.textContent = msg.trim() || 'Entry already exists!';
+          error.style.display = 'block';
+        } else {
+          error.textContent = 'Something went wrong';
+          error.style.display = 'block';
+        }
+      } catch (e) {
+        console.error(e);
+        error.textContent = 'Network error – try again later';
+        error.style.display = 'block';
+      } finally {
+        document.getElementById('submitBtn').disabled = false;
+        loading.style.display = 'none';
+      }
+    });
+  </script>
 
 </body>
 </html>
