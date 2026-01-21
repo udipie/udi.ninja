@@ -166,8 +166,8 @@
     }
 
     .welcome {
-      font-size: 1.8rem !important;
-      color: #61ff58;
+      font-size: 2.2rem !important;
+      color: #oobbff;
       animation: bounce 1.8s infinite;
     }
 
@@ -385,7 +385,7 @@
       document.getElementById('twitter').value = tw;
 
       if (!wl.match(/^0x/i) || !isValidEthAddress(wl)) {
-        error.textContent = 'Invalid wallet address';
+        error.textContent = 'Invalid wallet';
         error.style.display = 'block';
         return;
       }
