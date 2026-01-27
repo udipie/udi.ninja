@@ -59,7 +59,8 @@ input:focus {
   padding: 0 20px;
 }
 
-.ok { color: #6eff8d; }
+.og { color: #6eff8d; }
+.gtd { color: #ffd54f; }
 .fail { color: #ff1b26; }
 </style>
 </head>
@@ -118,10 +119,10 @@ input:focus {
 
       if (data.status === 'OG') {
         statusEl.textContent = 'OG access granted';
-        statusEl.className = 'status ok';
+        statusEl.className = 'status og';
       } else if (data.status === 'GTD') {
         statusEl.textContent = 'GTD access granted';
-        statusEl.className = 'status ok';
+        statusEl.className = 'status gtd';
       } else if (data.status === 'FCFS') {
         statusEl.textContent = 'FCFS access granted';
         statusEl.className = 'status ok';
