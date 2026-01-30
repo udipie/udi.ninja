@@ -5,16 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>$UDI</title>
 
-  <!-- Favicon -->
   <link rel="icon" href="UDifavicon.png" />
 
-  <!-- Font -->
   <link
     href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap"
     rel="stylesheet"
   />
 
   <style>
+    /* ================= RESET ================= */
+    * {
+      box-sizing: border-box;
+    }
+
     /* ================= BASE ================= */
     body {
       margin: 0;
@@ -27,18 +30,23 @@
       font-family: 'Special Elite', monospace;
     }
 
-    /* ================= LAYOUT ================= */
+    /* ================= MAIN ================= */
     .check-container {
       width: 100%;
       max-width: 380px;
+      padding: 0 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       text-align: center;
     }
 
+    /* ================= LOGO ================= */
     .logo {
-      display: block;
       width: 300px;
-      margin: 0 auto 8px;
-      align-items: center;
+      max-width: 100%;
+      margin-bottom: 12px;
+      display: block;
     }
 
     /* ================= INPUT ================= */
@@ -68,7 +76,7 @@
     /* ================= STATUS ================= */
     .status {
       margin-top: 20px;
-      padding: 0 20px;
+      min-height: 2.2em;
       font-size: 1.3rem;
       font-weight: bold;
       text-align: center;
@@ -83,10 +91,15 @@
     .footer {
       position: fixed;
       bottom: 15px;
-      left: 50%;
-      transform: translateX(-50%);
+      width: 100%;
       display: flex;
-      gap: 20px;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .footer-inner {
+      display: flex;
+      gap: 16px;
       font-size: 0.75rem;
       font-weight: bold;
       letter-spacing: 1.5px;
@@ -109,9 +122,11 @@
   </div>
 
   <div class="footer">
-    <span>© 2025 UDI. All rights reserved.</span>
-    <span>│</span>
-    <span>contact@udi.ninja</span>
+    <div class="footer-inner">
+      <span>© 2025 UDI. All rights reserved.</span>
+      <span>│</span>
+      <span>contact@udi.ninja</span>
+    </div>
   </div>
 
   <script>
@@ -125,7 +140,6 @@
     const walletInput = document.getElementById('walletInput');
     const statusEl = document.getElementById('status');
 
-    /* ============ DEBOUNCE CHECK ============ */
     let debounceTimer;
     walletInput.addEventListener('input', () => {
       clearTimeout(debounceTimer);
@@ -134,10 +148,8 @@
       }, 400);
     });
 
-    /* ============ CORE LOGIC ============ */
     walletInput.addEventListener('change', async () => {
       const wallet = walletInput.value.trim();
-
       statusEl.textContent = '';
 
       if (!isValidEthAddress(wallet)) {
@@ -175,7 +187,7 @@
             'Not whitelisted yet, stay tuned for the next phase';
           statusEl.className = 'status fail';
         }
-      } catch (err) {
+      } catch {
         statusEl.textContent = 'Network error';
         statusEl.className = 'status fail';
       }
