@@ -1,466 +1,184 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>$UDI</title>
-  <link rel="icon" href="UDifavicon.png" type="image/png">
-  <link rel="apple-touch-icon" href="UDifavicon.png">
-  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+
+  <!-- Favicon -->
+  <link rel="icon" href="UDifavicon.png" />
+
+  <!-- Font -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap"
+    rel="stylesheet"
+  />
 
   <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-    }
-
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      width: 100%;
-      overflow-x: hidden;
-    }
-
+    /* ================= BASE ================= */
     body {
-      background: #fd8c00;
-      color: white;
+      margin: 0;
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: 'Special Elite', monospace !important;
-    }
-
-    /* PASSWORD SCREEN */
-    .password-screen {
-      position: fixed;
-      inset: 0;
       background: #fd8c00;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1;
-      padding: 20px;
-    }
-
-    .pass-container {
-      text-align: center;
-      max-width: 300px;
-      width: 100%;
-    }
-
-    .pass-logo {
-      width: 240px;
-      max-width: 90vw;
-      margin-bottom: 10px;
-      animation: bounce 1.8s infinite;
-    }
-
-    #passInput {
-      width: 100%;
-      padding: 18px 20px;
-      background: rgba(255, 255, 255, 0.08);
-      border: none;
-      outline: none;
-      box-shadow: none;
-      border-radius: 30px;
       color: white;
-      font-size: 1.2rem;
-      text-align: center;
-      letter-spacing: 3px;
-      backdrop-filter: blur(10px);
-      font-family: 'Special Elite', monospace !important;
+      font-family: 'Special Elite', monospace;
     }
 
-    #passInput::placeholder {
-      color: rgba(255, 255, 255, 0.3);
-    }
-
-    .pass-error {
-      margin-top: 10px;
-      color: #ff1b26;
-      font-weight: bold;
-      font-size: 1.1rem;
-      opacity: 0;
-      transition: opacity .4s;
-    }
-
-    .pass-error.show {
-      opacity: 1;
-    }
-
-    /* MAIN FORM */
-    .container {
-      text-align: center;
-      max-width: 420px;
+    /* ================= LAYOUT ================= */
+    .check-container {
       width: 100%;
-      padding: 8px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      max-width: 380px;
+      text-align: center;
     }
 
     .logo {
-      width: 300px;
-      max-width: 90vw;
-      margin-bottom: 10px;
+      width: 100px;
+      margin-bottom: 22px;
+      opacity: 0.95;
     }
 
-    .compact-input {
+    /* ================= INPUT ================= */
+    input {
       width: 100%;
-      max-width: 360px;
-      padding: 16px 20px !important;
-      background: rgba(255, 255, 255, 0.08);
+      padding: 18px 20px;
       border: none;
       border-radius: 30px;
+      background: rgba(255, 255, 255, 0.08);
       color: white;
-      font-size: 1.35rem !important;
+      font-size: 1.3rem;
       text-align: center;
+      letter-spacing: 2px;
       backdrop-filter: blur(10px);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      font-family: 'Special Elite', monospace !important;
+      font-family: 'Special Elite', monospace;
     }
 
-    .compact-input::placeholder {
-      color: rgba(255, 255, 255, 0.55);
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.4);
     }
 
-    .compact-input:focus {
+    input:focus {
       outline: none;
       background: rgba(255, 255, 255, 0.15);
     }
 
-    button {
-      margin-top: 10px;
-      padding: 14px 40px;
-      background: rgba(255, 255, 255, 0.08);
-      color: white;
-      border: none;
-      border-radius: 30px;
-      font-size: 1.4rem;
-      font-weight: bold;
-      letter-spacing: 3px;
-      cursor: pointer;
-      transition: all .3s;
-      font-family: 'Special Elite', monospace !important;
-    }
-
-    button:hover {
-      background: white;
-      color: #ff8c00;
-      transform: translateY(-2px);
-    }
-
-    .message {
+    /* ================= STATUS ================= */
+    .status {
       margin-top: 20px;
-      font-size: 1rem;
+      padding: 0 20px;
+      font-size: 1.3rem;
       font-weight: bold;
-      letter-spacing: 2px;
-      display: none;
-      white-space: pre-line;
       text-align: center;
+      white-space: pre-line;
     }
 
-    .error-msg {
-      color: #ff1b26;
-    }
+    .og   { color: #6eff8d; }
+    .gtd  { color: #ffd54f; }
+    .fail { color: #ff1b26; }
 
-    .welcome {
-      font-size: 2.2rem !important;
-      color: #oobbff;
-      animation: bounce 1.8s infinite;
-    }
-
+    /* ================= FOOTER ================= */
     .footer {
       position: fixed;
       bottom: 15px;
       left: 50%;
       transform: translateX(-50%);
+      display: flex;
+      gap: 20px;
       font-size: 0.75rem;
       font-weight: bold;
       letter-spacing: 1.5px;
-      display: flex;
-      gap: 20px;
       white-space: nowrap;
     }
-
-    .form-elements {
-      transition: opacity 0.8s ease-out;
-      opacity: 1;
-    }
-
-    .form-elements.fade-out {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    @keyframes bounce {
-      0%, 100% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(-8px);
-      }
-    }
-
-    .checkbox-group {
-      margin: 20px 0;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 30px;
-      width: 100%;
-      max-width: 360px;
-    }
-
-    .checkbox-label {
-      display: flex;
-      align-items: center;
-      font-size: 1.1rem;
-      cursor: pointer;
-      gap: 8px;
-      white-space: nowrap;
-    }
-
-    .checkbox {
-      width: 20px;
-      height: 20px;
-      appearance: none;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 5px;
-      cursor: pointer;
-      position: relative;
-    }
-
-    .checkbox:checked::before {
-      content: '✔';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: #61ff58;
-      font-size: 1.2rem;
-    }
-
-    .instructions {
-      margin-bottom: 15px;
-      font-size: 1.5rem;
-      text-align: center;
-      color: rgba(255, 255, 255, 0.8);
-      max-width: 430px;
-    }
-    .check-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 14px;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.15);
-      color: white;
-      font-size: 1.8rem;
-      text-decoration: none;
-      color: inherit;
-      transition: all .25s ease;
-     }
-
-    .check-icon:hover {
-      background: white;
-      color: #fd8c00;
-      transform: scale(1.1);
-     }
-</style>
+  </style>
 </head>
+
 <body>
+  <div class="check-container">
+    <img src="Giftbox.png" alt="UDI logo" class="logo" />
 
-  <!-- PASSWORD SCREEN -->
-  <div class="password-screen" id="passwordScreen">
-    <div class="pass-container">
-      <img src="Infeeno.png" alt="UDI" class="pass-logo">
-      <input type="text" inputmode="text" id="passInput" placeholder="Coming soon" autocomplete="off">
-      <div class="pass-error" id="passError">Wrong Password!</div>
-    </div>
-    <a href="/check" class="check-icon" title="">🎁</a>
+    <input
+      id="walletInput"
+      placeholder="your wallet here…"
+      autocomplete="off"
+    />
 
-
-    <div class="footer">
-      <span>© 2025 UDI. All rights reserved.</span>
-      <span>│</span>
-      <span>contact@udi.ninja</span>
-    </div>
+    <div class="status" id="status"></div>
   </div>
 
-  <!-- MAIN FORM -->
-  <div class="container" id="mainForm" style="display: none;">
-    <img src="Unseal.png" alt="UDI" class="logo">
-
-    <div class="form-elements" id="formElements">
-      <div class="instructions">
-        Make sure completed all steps to be eligible for the Whitelist
-      </div>
-
-      <div style="margin: 8px 0;">
-        <input type="text" id="twitter" placeholder="@username..." class="compact-input">
-      </div>
-
-      <div style="margin: 8px 0;">
-        <input type="text" id="wallet" placeholder="0x...eth" class="compact-input">
-      </div>
-
-      <div style="margin: 8px 0;">
-        <input type="text" id="retweetLink" placeholder="your 'udi' comment link" class="compact-input">
-      </div>
-
-      <div class="checkbox-group">
-        <label class="checkbox-label" data-url="https//:x.com/udininja">
-          <input type="checkbox" class="checkbox" id="likeCheck">
-          Like
-        </label>
-        <label class="checkbox-label">
-          <input type="checkbox" class="checkbox" id="retweetCheck">
-          Retweet
-        </label>
-        <label class="checkbox-label">
-          <input type="checkbox" class="checkbox" id="followCheck">
-          Follow
-        </label>
-      </div>
-
-      <button id="submitBtn">SUBMIT</button>
-    </div>
-
-    <div class="message" id="loading">Submitting...</div>
-    <div class="message error-msg" id="error"></div>
-    <div class="message welcome" id="welcome">Welcome to UDION!</div>
-
-    <div class="footer">
-      <span>© 2025 UDI. All rights reserved.</span>
-      <span>│</span>
-      <span>contact@udi.ninja</span>
-    </div>
+  <div class="footer">
+    <span>© 2025 UDI. All rights reserved.</span>
+    <span>│</span>
+    <span>contact@udi.ninja</span>
   </div>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzGbWzOpggF7-Xy3Izec0Ht0FYMJtNHYPvxgbAjJBAP7D5ele1Z2qXFow2gcl2WFzQu/exec';
+    const CHECK_SCRIPT_URL =
+      'https://script.google.com/macros/s/AKfycbyTKphT7y9vgjIbg3-sF7az-BH7ZLSz69WvcaK7wrZ-hh1tZxLs0wrbQ7Z2dO91K90Kcg/exec';
 
-    const passwordScreen = document.getElementById('passwordScreen');
-    const mainForm       = document.getElementById('mainForm');
-    const passInput      = document.getElementById('passInput');
-    const passError      = document.getElementById('passError');
-
-    if (passInput) passInput.focus();
-
-    passInput.addEventListener('input', function () {
-      this.value = this.value.toLowerCase().trim();
-      passError.classList.remove('show');
-
-      if (this.value === 'cacou') {
-        passwordScreen.style.opacity = '0';
-        setTimeout(() => {
-          passwordScreen.style.display = 'none';
-          mainForm.style.display = 'flex';
-        }, 250);
-      } else if (this.value.length >= 5) {
-        passError.textContent = 'Wrong Password!';
-        passError.classList.add('show');
-      }
-    });
-
-    function isValidEthAddress(a) {
-      return /^0x[a-fA-F0-9]{40}$/i.test(a);
+    function isValidEthAddress(address) {
+      return /^0x[a-fA-F0-9]{40}$/.test(address);
     }
 
-    document.getElementById('submitBtn').addEventListener('click', async () => {
-      let tw          = document.getElementById('twitter').value.trim();
-      let wl          = document.getElementById('wallet').value.trim();
-      let retweetLink = document.getElementById('retweetLink').value.trim();
+    const walletInput = document.getElementById('walletInput');
+    const statusEl = document.getElementById('status');
 
-      const likeCheck    = document.getElementById('likeCheck').checked;
-      const retweetCheck = document.getElementById('retweetCheck').checked;
-      const followCheck  = document.getElementById('followCheck').checked;
+    /* ============ DEBOUNCE CHECK ============ */
+    let debounceTimer;
+    walletInput.addEventListener('input', () => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        walletInput.dispatchEvent(new Event('change'));
+      }, 400);
+    });
 
-      const loading = document.getElementById('loading');
-      const error   = document.getElementById('error');
-      const welcome = document.getElementById('welcome');
+    /* ============ CORE LOGIC ============ */
+    walletInput.addEventListener('change', async () => {
+      const wallet = walletInput.value.trim();
 
-      loading.style.display = error.style.display = welcome.style.display = 'none';
+      statusEl.textContent = '';
 
-      if (!tw || !wl || !retweetLink) {
-        error.textContent = 'Please fill all fields';
-        error.style.display = 'block';
+      if (!isValidEthAddress(wallet)) {
+        statusEl.textContent = 'Invalid wallet';
+        statusEl.className = 'status fail';
         return;
       }
 
-      if (!likeCheck || !retweetCheck || !followCheck) {
-        error.textContent = 'Please complete all steps (Like, Retweet, Follow)';
-        error.style.display = 'block';
-        return;
-      }
-
-      if (retweetLink && !retweetLink.includes('x.com') && !retweetLink.includes('twitter.com')) {
-        error.textContent = 'Invalid link';
-        error.style.display = 'block';
-        return;
-      }
-
-      if (!tw.startsWith('@')) tw = '@' + tw.replace(/^@+/, '');
-      document.getElementById('twitter').value = tw;
-
-      if (!wl.match(/^0x/i) || !isValidEthAddress(wl)) {
-        error.textContent = 'Invalid wallet';
-        error.style.display = 'block';
-        return;
-      }
-
-      document.getElementById('submitBtn').disabled = true;
-      loading.style.display = 'block';
+      statusEl.textContent = 'Checking...';
+      statusEl.className = 'status';
 
       try {
-        const r = await fetch(SCRIPT_URL, {
+        const response = await fetch(CHECK_SCRIPT_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'text/plain' },
           body: JSON.stringify({
-            action: 'submit',
-            twitter: tw,
-            wallet: wl.toLowerCase(),
-            retweetLink: retweetLink.trim(),
-            timestamp: new Date().toISOString()
+            action: 'check',
+            wallet: wallet.toLowerCase()
           })
         });
 
-        const d = await r.json();
+        const data = await response.json();
 
-        if (d.result === 'success') {
-          const formElements = document.getElementById('formElements');
-          formElements.classList.add('fade-out');
-          setTimeout(() => { formElements.style.display = 'none'; }, 500);
-          welcome.style.display = 'block';
-          document.querySelector('.logo').style.marginBottom = '50px';
-          document.getElementById('twitter').value = '';
-          document.getElementById('wallet').value = '';
-          document.getElementById('retweetLink').value = '';
-        } else if (d.result === 'duplicate') {
-          let msg = '';
-          if (d.details?.twitter)    msg += 'X already used!\n';
-          if (d.details?.wallet)     msg += 'Wallet already used!\n';
-          if (d.details?.retweetLink) msg += 'Link already used!\n';
-          error.textContent = msg.trim() || 'Entry already exists!';
-          error.style.display = 'block';
+        if (data.status === 'OG') {
+          statusEl.textContent = 'OG access granted';
+          statusEl.className = 'status og';
+        } else if (data.status === 'GTD') {
+          statusEl.textContent = 'GTD access granted';
+          statusEl.className = 'status gtd';
+        } else if (data.status === 'FCFS') {
+          statusEl.textContent = 'FCFS access granted';
+          statusEl.className = 'status';
         } else {
-          error.textContent = 'Something went wrong';
-          error.style.display = 'block';
+          statusEl.textContent =
+            'Not whitelisted yet, stay tuned for the next phase';
+          statusEl.className = 'status fail';
         }
-      } catch (e) {
-        console.error(e);
-        error.textContent = 'Network error – try again later';
-        error.style.display = 'block';
-      } finally {
-        document.getElementById('submitBtn').disabled = false;
-        loading.style.display = 'none';
+      } catch (err) {
+        statusEl.textContent = 'Network error';
+        statusEl.className = 'status fail';
       }
     });
   </script>
-
 </body>
 </html>
