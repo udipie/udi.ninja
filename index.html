@@ -1,197 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>$UDI</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>$UDI</title>
 
-  <link rel="icon" href="UDifavicon.png" />
+  <link rel="icon" href="UDifavicon.png" />
 
-  <link
-    href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap"
-    rel="stylesheet"
-  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap"
+    rel="stylesheet"
+  />
 
-  <style>
-    /* ================= RESET ================= */
-    * {
-      box-sizing: border-box;
-    }
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-    /* ================= BASE ================= */
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #fd8c00;
-      color: white;
-      font-family: 'Special Elite', monospace;
-    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fd8c02;
+      color: white;
+      font-family: 'Special Elite', monospace;
+    }
 
-    /* ================= MAIN ================= */
-    .check-container {
-      width: 100%;
-      max-width: 380px;
-      padding: 0 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
+    .check-container {
+      width: 100%;
+      max-width: 380px;
+      padding: 0 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
 
-    /* ================= LOGO ================= */
-    .logo {
-      width: 300px;
-      max-width: 100%;
-      margin-bottom: 12px;
-      display: block;
-    }
+    .logo {
+      width: 600px;
+      max-width: 100%;
+      margin-bottom: 16px;
+      display: block;
+    }
 
-    /* ================= INPUT ================= */
-    input {
-      width: 100%;
-      padding: 18px 20px;
-      border: none;
-      border-radius: 30px;
-      background: rgba(255, 255, 255, 0.08);
-      color: white;
-      font-size: 1.3rem;
-      text-align: center;
-      letter-spacing: 2px;
-      backdrop-filter: blur(10px);
-      font-family: 'Special Elite', monospace;
-    }
+    /* MINT BUTTON */
+    .mint-btn {
+      width: 100%;
+      padding: 16px 0;
+      border-radius: 12px;
+      border: 2px solid white;
+      background: transparent;
+      color: white;
+      font-size: 1.4rem;
+      letter-spacing: 4px;
+      font-weight: bold;
+      cursor: pointer;
+      font-family: 'Special Elite', monospace;
+      animation: blink 1.8s infinite ease-in-out, shake 3s infinite;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
 
-    input::placeholder {
-      color: rgba(255, 255, 255, 0.4);
-    }
+    .mint-btn:hover {
+      background: white;
+      color: #fd8c00;
+      box-shadow: 0 0 18px rgba(255, 255, 255, 0.8);
+    }
 
-    input:focus {
-      outline: none;
-      background: rgba(255, 255, 255, 0.15);
-    }
+    /* BLING BLING */
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
 
-    /* ================= STATUS ================= */
-    .status {
-      margin-top: 20px;
-      min-height: 2.2em;
-      font-size: 1.3rem;
-      font-weight: bold;
-      text-align: center;
-      white-space: pre-line;
-    }
+    /* SHAKE */
+    @keyframes shake {
+      0%   { transform: translateX(0); }
+      2%   { transform: translateX(-1px); }
+      4%   { transform: translateX(1px); }
+      6%   { transform: translateX(-1px); }
+      8%   { transform: translateX(1px); }
+      10%  { transform: translateX(0); }
+      100% { transform: translateX(0); }
+    }
 
-    .og   { color: #6eff8d; }
-    .gtd  { color: #ffd54f; }
-    .fail { color: #ff1b26; }
+    .footer {
+      position: fixed;
+      bottom: 15px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      pointer-events: none;
+    }
 
-    /* ================= FOOTER ================= */
-    .footer {
-      position: fixed;
-      bottom: 15px;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      pointer-events: none;
-    }
-
-    .footer-inner {
-      display: flex;
-      gap: 16px;
-      font-size: 0.75rem;
-      font-weight: bold;
-      letter-spacing: 1.5px;
-      white-space: nowrap;
-    }
-  </style>
+    .footer-inner {
+      display: flex;
+      gap: 16px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      letter-spacing: 1.5px;
+      white-space: nowrap;
+    }
+  </style>
 </head>
 
 <body>
-  <div class="check-container">
-    <img src="Box.png" alt="UDI logo" class="logo" />
+  <div class="check-container">
+    <img src="Smoke.gif" alt="UDI logo" class="logo" />
 
-    <input
-      id="walletInput"
-      placeholder="your wallet here…"
-      autocomplete="off"
-    />
+    <button
+      class="mint-btn"
+      onclick="window.open('https://opensea.io/collection/udion')"
+    >
+      MINT
+    </button>
+  </div>
 
-    <div class="status" id="status"></div>
-  </div>
-
-  <div class="footer">
-    <div class="footer-inner">
-      <span>© 2025 UDI. All rights reserved.</span>
-      <span>│</span>
-      <span>contact@udi.ninja</span>
-    </div>
-  </div>
-
-  <script>
-    const CHECK_SCRIPT_URL =
-      'https://script.google.com/macros/s/AKfycbyTKphT7y9vgjIbg3-sF7az-BH7ZLSz69WvcaK7wrZ-hh1tZxLs0wrbQ7Z2dO91K90Kcg/exec';
-
-    function isValidEthAddress(address) {
-      return /^0x[a-fA-F0-9]{40}$/.test(address);
-    }
-
-    const walletInput = document.getElementById('walletInput');
-    const statusEl = document.getElementById('status');
-
-    let debounceTimer;
-    walletInput.addEventListener('input', () => {
-      clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(() => {
-        walletInput.dispatchEvent(new Event('change'));
-      }, 400);
-    });
-
-    walletInput.addEventListener('change', async () => {
-      const wallet = walletInput.value.trim();
-      statusEl.textContent = '';
-
-      if (!isValidEthAddress(wallet)) {
-        statusEl.textContent = 'Invalid wallet';
-        statusEl.className = 'status fail';
-        return;
-      }
-
-      statusEl.textContent = 'Checking...';
-      statusEl.className = 'status';
-
-      try {
-        const response = await fetch(CHECK_SCRIPT_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain' },
-          body: JSON.stringify({
-            action: 'check',
-            wallet: wallet.toLowerCase()
-          })
-        });
-
-        const data = await response.json();
-
-        if (data.status === 'OG') {
-          statusEl.textContent = 'OG access granted';
-          statusEl.className = 'status og';
-        } else if (data.status === 'GTD') {
-          statusEl.textContent = 'GTD access granted';
-          statusEl.className = 'status gtd';
-        } else if (data.status === 'FCFS') {
-          statusEl.textContent = 'FCFS access granted';
-          statusEl.className = 'status';
-        } else {
-          statusEl.textContent =
-            'Not whitelisted';
-          statusEl.className = 'status fail';
-        }
-      } catch {
-        statusEl.textContent = 'Network error';
-        statusEl.className = 'status fail';
-      }
-    });
-  </script>
+  <div class="footer">
+    <div class="footer-inner">
+      <span>© 2025 UDI. All rights reserved.</span>
+      <span>│</span>
+      <span>contact@udi.ninja</span>
+    </div>
+  </div>
 </body>
 </html>
