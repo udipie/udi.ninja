@@ -1,128 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>$UDI</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>$UDI</title>
 
-  <link rel="icon" href="UDifavicon.png" />
+  <link rel="icon" href="UDifavicon.png" />
 
-  <link
-    href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap"
-    rel="stylesheet"
-  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap"
+    rel="stylesheet"
+  />
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #fd8c02;
-      color: white;
-      font-family: 'Special Elite', monospace;
-    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fd8c02;
+      color: white;
+      font-family: 'Special Elite', monospace;
+    }
 
-    .check-container {
-      width: 100%;
-      max-width: 380px;
-      padding: 0 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
+    .check-container {
+      width: 100%;
+      max-width: 380px;
+      padding: 0 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
 
-    .logo {
-      width: 600px;
-      max-width: 100%;
-      margin-bottom: 16px;
-      display: block;
-    }
+    .logo {
+      width: 600px;
+      max-width: 100%;
+      margin-bottom: 16px;
+      display: block;
+    }
 
-    /* MINT BUTTON */
-    .mint-btn {
-      width: 100%;
-      padding: 16px 0;
-      border-radius: 12px;
-      border: 2px solid white;
-      background: transparent;
-      color: white;
-      font-size: 1.4rem;
-      letter-spacing: 4px;
-      font-weight: bold;
-      cursor: pointer;
-      font-family: 'Special Elite', monospace;
-      animation: blink 1.8s infinite ease-in-out, shake 3s infinite;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-    }
+    /* MINT BUTTON */
+    .mint-btn {
+      width: 100%;
+      padding: 16px 0;
+      border-radius: 12px;
+      border: 2px solid white;
+      background: transparent;
+      color: white;
+      font-size: 1.4rem;
+      letter-spacing: 4px;
+      font-weight: bold;
+      cursor: pointer;
+      font-family: 'Special Elite', monospace;
+      animation: blink 1.8s infinite ease-in-out, shake 3s infinite;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, color 0.15s ease;
+    }
 
-    .mint-btn:hover {
-      background: white;
-      color: #fd8c00;
-      box-shadow: 0 0 18px rgba(255, 255, 255, 0.8);
-    }
+    .mint-btn:hover {
+      background: white;
+      color: #fd8c02;
+      box-shadow: 0 0 18px rgba(255, 255, 255, 0.8);
+    }
 
-    /* BLING BLING */
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.6; }
-    }
+    /* BLINK */
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
 
-    /* SHAKE */
-    @keyframes shake {
-      0%   { transform: translateX(0); }
-      2%   { transform: translateX(-1px); }
-      4%   { transform: translateX(1px); }
-      6%   { transform: translateX(-1px); }
-      8%   { transform: translateX(1px); }
-      10%  { transform: translateX(0); }
-      100% { transform: translateX(0); }
-    }
+    /* SHAKE */
+    @keyframes shake {
+      0%   { transform: translateX(0); }
+      2%   { transform: translateX(-1px); }
+      4%   { transform: translateX(1px); }
+      6%   { transform: translateX(-1px); }
+      8%   { transform: translateX(1px); }
+      10%  { transform: translateX(0); }
+      100% { transform: translateX(0); }
+    }
 
-    .footer {
-      position: fixed;
-      bottom: 15px;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      pointer-events: none;
-    }
+    .footer {
+      position: fixed;
+      bottom: 15px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      pointer-events: none;
+    }
 
-    .footer-inner {
-      display: flex;
-      gap: 16px;
-      font-size: 0.75rem;
-      font-weight: bold;
-      letter-spacing: 1.5px;
-      white-space: nowrap;
-    }
-  </style>
+    .footer-inner {
+      display: flex;
+      gap: 16px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      letter-spacing: 1.5px;
+      white-space: nowrap;
+    }
+  </style>
 </head>
 
 <body>
-  <div class="check-container">
-    <img src="Smoke.gif" alt="UDI logo" class="logo" />
+  <div class="check-container">
+    <img src="Smoke.gif" alt="UDI logo" class="logo" />
 
-    <button
-      class="mint-btn"
-      onclick="window.open('https://opensea.io/collection/udion')"
-    >
-      MINT
-    </button>
-  </div>
+    <button
+      class="mint-btn"
+      onclick="window.open('https://opensea.io/collection/udion', '_blank')"
+    >
+      MINT
+    </button>
+  </div>
 
-  <div class="footer">
-    <div class="footer-inner">
-      <span>© 2025 UDI. All rights reserved.</span>
-      <span>│</span>
-      <span>contact@udi.ninja</span>
-    </div>
-  </div>
+  <div class="footer">
+    <div class="footer-inner">
+      <span>© 2025 UDI. All rights reserved.</span>
+      <span>│</span>
+      <span>contact@udi.ninja</span>
+    </div>
+  </div>
 </body>
 </html>
