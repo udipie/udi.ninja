@@ -6,11 +6,7 @@
   <title>$UDI</title>
 
   <link rel="icon" href="UDifavicon.png" />
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet"/>
 
   <style>
     * {
@@ -23,9 +19,22 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #fd8c02;
+
+      /* BACKGROUND IMAGE */
+      background: url("Background.png") no-repeat center center fixed;
+      background-size: cover;
+
       color: white;
       font-family: 'Special Elite', monospace;
+    }
+
+    /* overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.35);
+      z-index: -1;
     }
 
     .check-container {
@@ -38,17 +47,10 @@
       text-align: center;
     }
 
-    .logo {
-      width: 850px;
-      max-width: 100%;
-      margin-bottom: 16px;
-      display: block;
-    }
-
     /* MINT BUTTON */
     .mint-btn {
       width: 100%;
-      padding: 16px 0;
+      padding: 18px 0;
       border-radius: 12px;
       border: 2px solid white;
       background: transparent;
@@ -60,18 +62,19 @@
       font-family: 'Special Elite', monospace;
       animation: blink 1.8s infinite ease-in-out, shake 3s infinite;
       transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, color 0.15s ease;
+      backdrop-filter: blur(3px);
     }
 
     .mint-btn:hover {
       background: white;
-      color: #fd8c02;
+      color: black;
       box-shadow: 0 0 18px rgba(255, 255, 255, 0.8);
     }
 
     /* BLINK */
     @keyframes blink {
       0%, 100% { opacity: 1; }
-      50% { opacity: 0.6; }
+      50% { opacity: 0.7; }
     }
 
     /* SHAKE */
@@ -101,14 +104,15 @@
       font-weight: bold;
       letter-spacing: 1.5px;
       white-space: nowrap;
+      background: rgba(0,0,0,0.4);
+      padding: 6px 12px;
+      border-radius: 8px;
     }
   </style>
 </head>
 
 <body>
   <div class="check-container">
-    <img src="Smoke.gif" alt="UDI logo" class="logo" />
-
     <button
       class="mint-btn"
       onclick="window.open('https://opensea.io/collection/udion', '_blank')"
